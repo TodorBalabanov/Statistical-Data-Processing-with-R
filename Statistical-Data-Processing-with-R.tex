@@ -1,0 +1,127 @@
+\documentclass[runningheads,14pt,a4paper,openany]{book}
+
+% Добавя възможност за сензитивни хипер-връзки в самия документ.
+\usepackage[linktocpage=true]{hyperref}
+\usepackage{nameref}
+\usepackage[utf8x]{inputenc}
+\usepackage[english,bulgarian]{babel}
+\usepackage{url}
+\usepackage{lipsum}
+\usepackage{bookmark}
+% Според изискванията на ИИКТ-БАН не бива да има номерация на страниците в ръкописа.
+%\usepackage{nopageno}
+\usepackage{shorttoc}
+\usepackage[pdftex]{graphicx}
+% Директория в която се намират изображенията.
+\graphicspath{{images/}}
+\usepackage{array,arydshln}
+\usepackage{imakeidx}
+\usepackage{placeins}
+% Използва се за включване на кориците под формата на PDF файлове.
+\usepackage{pdfpages}
+% Служи за управление на заглавията.
+\usepackage{fancyheadings}
+
+% Добавени от доц. Вера Ангелова.
+%\usepackage{amsmath,amssymb,amsthm}
+%\usepackage{longtable}
+%\usepackage{pifont}   
+%\usepackage{epsfig}
+%\usepackage{tocloft}
+%\usepackage{etoc}
+%\usepackage{wasysym}
+%\usepackage{eurosym}
+%\usepackage{slashbox}
+%\usepackage{soul}
+%\usepackage{enumitem}
+%\usepackage{mathcomp}
+%\usepackage{epstopdf}
+%\usepackage{latexsym}
+%\usepackage{eucal}
+%\usepackage{mathrsfs}
+
+\textheight 22.8cm
+\textwidth 17cm
+\oddsidemargin -0.54cm
+\evensidemargin -0.54cm
+\topmargin 1.5cm
+
+\parskip=0.2cm
+\parindent=20pt
+\flushbottom
+
+% Премахва подчертаващата линия в заглавните части.
+\renewcommand{\headrulewidth}{0pt}
+
+\selectlanguage{bulgarian}
+
+\lhead[\thepage \quad Тодор Балабанов \quad \hfill]{}
+\chead{}
+\rhead[]{\hfill Статистическа обработка на данни с R \quad \thepage }
+\lfoot{}
+\cfoot[\em Лекции по компютърни науки и технологии на ИИКТ - БАН, № *, 20**]{\em Лекции по компютърни науки и технологии на ИИКТ - БАН, № *, 20**} 
+\rfoot{}
+
+\onecolumn
+\makeindex[columns=1, title=Азбучен указател, intoc]
+
+\begin{document}
+
+\def\ql{\textquotedblleft}\def\qr{\textquotedblright}
+
+\includepdf[pages={1,2}]{images/front}
+\thispagestyle{empty}
+
+\voffset =-1truecm
+
+% Използва се за номерация на страниците.
+\renewcommand{\thepage}{\roman{page}}
+
+\setcounter{page}{-1}
+\thispagestyle{empty}
+\pagestyle{empty}
+\thispagestyle{empty}
+
+% Тук стои таблицата със съдържанието, което се генерира от названието на главите.
+\newpage
+\thispagestyle{empty}
+\pagestyle{empty}
+\shorttoc{Теми}{0}
+\thispagestyle{empty}
+\pagestyle{empty}
+
+% Тук стои таблицата със съдържанието, което се генерира от названието на главите и названието на секциите в тях.
+\newpage
+\thispagestyle{empty}
+\pagestyle{empty}
+\thispagestyle{empty}
+\tableofcontents
+\thispagestyle{empty}
+\pagestyle{empty}
+
+% Списък с фигурите.
+\newpage
+\listoffigures
+\addcontentsline{toc}{chapter}{Списък на фигурите}
+
+% Списък с таблиците. 
+\newpage
+\listoftables
+\addcontentsline{toc}{chapter}{Списък с таблиците}
+
+\include{chapters/introduction}
+\include{chapters/chapter01}
+\include{chapters/conclusion}
+
+% Списък с използвана литература и източници на информация.
+\newpage
+\begin{thebibliography}{99}
+\addcontentsline{toc}{chapter}{Библиография}
+\end{thebibliography}
+
+% Азбучен указател на използваните термини.
+\newpage
+\printindex
+
+\includepdf[pages=-,height=320mm]{images/back}
+\end{document}
