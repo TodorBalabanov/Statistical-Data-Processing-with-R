@@ -21,6 +21,7 @@
 \usepackage{pdfpages}
 % Служи за управление на заглавията.
 \usepackage{fancyheadings}
+\usepackage{listings}
 
 % Добавени от доц. Вера Ангелова.
 %\usepackage{amsmath,amssymb,amsthm}
@@ -65,6 +66,12 @@
 \onecolumn
 \makeindex[columns=1, title=Азбучен указател, intoc]
 
+% Подменя думата използван а за ноемрация на фрагментите програмен код.
+\renewcommand{\lstlistingname}{Листинг}
+
+% Определя цвета за фон на програмния код.
+\lstset{backgroundcolor=\color{lightgray}}
+
 \begin{document}
 
 \def\ql{\textquotedblleft}\def\qr{\textquotedblright}
@@ -76,6 +83,9 @@
 
 % Използва се за номерация на страниците.
 \renewcommand{\thepage}{\roman{page}}
+
+% Смяна на названието за списъка от листингите
+\renewcommand{\lstlistlistingname}{Списък на листингите}
 
 \setcounter{page}{-1}
 \thispagestyle{empty}
@@ -107,7 +117,12 @@
 % Списък с таблиците. 
 \newpage
 \listoftables
-\addcontentsline{toc}{chapter}{Списък с таблиците}
+\addcontentsline{toc}{chapter}{Списък на таблиците}
+
+% Списък с листингите.
+\newpage
+\lstlistoflistings
+\addcontentsline{toc}{chapter}{Списък на листингите}
 
 \include{chapters/introduction}
 \include{chapters/chapter01}
