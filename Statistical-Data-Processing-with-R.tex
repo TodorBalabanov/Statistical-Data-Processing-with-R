@@ -1,7 +1,9 @@
 \documentclass[runningheads,14pt,a4paper,openany]{book}
 
 % Добавя възможност за сензитивни хипер-връзки в самия документ.
-\usepackage[linktocpage=true,bookmarks=false]{hyperref}
+\usepackage[pdftex, bookmarks, linktocpage]{hyperref}
+% Команда с множество опции за настройка на поведението на пакета hyperref, с най-полезната опция - кирилизация на заглавията от Bookmarks в Acrobat.
+\hypersetup{unicode=true, colorlinks=true, linkcolor=black, citecolor=black, urlcolor=black}
 \usepackage{nameref}
 \usepackage[utf8x]{inputenc}
 \usepackage[english,bulgarian]{babel}
