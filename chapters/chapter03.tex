@@ -1,4 +1,4 @@
-\newpage
+﻿\newpage
 \chapter{Сложни структури от данни и викане на функции}
 \label{chapter03}
 
@@ -10,10 +10,13 @@
 x <- c(1, 2, 3, 5, 6, 7, 8, 9)
 x
 [1] 1 2 3 5 6 7 8 9
+
 mean( x )
 [1] 5.125
+
 median( x )
 [1] 5.5
+
 sd( x )
 [1] 2.900123
 \end{lstlisting}
@@ -65,16 +68,22 @@ v2 <- c("Peter", "Ivan", "Geroge")
 x <- c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
 x
 [1]  1  2  3  4  5  6  7  8  9 10
+
 x * 5
 [1]  5 10 15 20 25 30 35 40 45 50
+
 x + 3
 [1]  4  5  6  7  8  9 10 11 12 13
+
 x - 4
 [1] -3 -2 -1  0  1  2  3  4  5  6
+
 x / 5
 [1] 0.2 0.4 0.6 0.8 1.0 1.2 1.4 1.6 1.8 2.0
+
 x ^ 3
 [1]    1    8   27   64  125  216  343  512  729 1000
+
 sqrt( x )
 [1] 1.000000 1.414214 1.732051 2.000000 2.236068 2.449490 2.645751 2.828427
 [9] 3.000000 3.162278
@@ -85,10 +94,13 @@ sqrt( x )
 \begin{lstlisting}[caption=Алтернативен синтаксис за създаване на вектори, label=listing0023]
 1:10
 [1] 1 2 3 4 5 6 7 8 9 10
+
 10:1
 [1] 10 9 8 7 6 5 4 3 2 1
+
 -2:3
 [1] -2 -1 0 1 2 3
+
 5:-7
 [1] 5 4 3 2 1 0 -1 -2 -3 -4 -5 -6 -7
 \end{lstlisting}
@@ -98,22 +110,30 @@ sqrt( x )
 \begin{lstlisting}[caption=Операции между вектори с еднаква дължина, label=listing0024]
 x <- 1:10
 y <- -10:-1
+
 nchar( x )
 [1] 1 1 1 1 1 1 1 1 1 2
+
 nchar( y )
 [1] 3 2 2 2 2 2 2 2 2 2
+
 x + y
 [1] -9 -7 -5 -3 -1  1  3  5  7  9
+
 x - y
 [1] 11 11 11 11 11 11 11 11 11 11
+
 x * y
 [1] -10 -18 -24 -28 -30 -30 -28 -24 -18 -10
+
 x / y
 [1]  -0.1000000  -0.2222222  -0.3750000  -0.5714286  -0.8333333  -1.2000000
 [7]  -1.7500000  -2.6666667  -4.5000000 -10.0000000
+
 x ^ y
 [1] 1.000000e+00 1.953125e-03 1.524158e-04 6.103516e-05 6.400000e-05
 [6] 1.286008e-04 4.164931e-04 1.953125e-03 1.234568e-02 1.000000e-01
+
 x > y
 [1] TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE TRUE
 \end{lstlisting}
@@ -123,6 +143,7 @@ x > y
 \begin{lstlisting}[caption=Проверка дали някоя или всички стойности от вектора отговарят на определено условие, label=listing0025]
 any(x+y < 0)
 [1] TRUE
+
 all(x+y < 0)
 [1] FALSE
 \end{lstlisting}
@@ -132,8 +153,10 @@ all(x+y < 0)
 \begin{lstlisting}[caption=Достъп до отделни елементи във вектор, label=listing0026]
 x[ 1 ]
 [1] 1
+
 x[ 2:3 ]
 [1] 2 3
+
 x[ c(2,5,7) ]
 [1] 2 5 7
 \end{lstlisting}
@@ -145,10 +168,10 @@ z <- c(One=1, Two=2, Three=3)
 z
   One   Two Three 
     1     2     3 
+
 names( z )
 [1] "One"   "Two"   "Three"
 \end{lstlisting}
-
 
 R позволява на елементите във вектора да се поставят имена (Листинг \ref{listing0027}).
 
@@ -161,6 +184,7 @@ f1 <- as.factor( e )
 f1
 [1] High School College     Masters     Doctorate  
 Levels: College Doctorate High School Masters
+
 as.numeric( f1 )
 [1] 3 1 4 2
 
@@ -170,11 +194,24 @@ f2 <- factor(c("High School", "College", "Masters", "Doctorate"),
 f2
 [1] High School College     Masters     Doctorate  
 Levels: High School < College < Masters < Doctorate
+
 as.numeric( f2 )
 [1] 1 2 3 4
 \end{lstlisting}
 
 Вектор може да бъде трансформиран във фактор\index{фактори} с помощта на функции за трансформация (Листинг \ref{listing0028}). Факторът е тип данни, при който всяка стойност се среща само по един път. Някои множества са неподредени (както е f1) и при тях няма значение редът на елементите, но някои множества са подредени (както е f2) и при тях е от значение редът на елементите. Функцията factor позволява изрично да се зададе какъв е редът на елементите. Факторът е значително по-икономичен на памет от вектора, тъй като се запазват единствено числените стойности на отделните елементи, но пък използването му може да доведе до трудни за откриване логически грешки.
+
+\begin{lstlisting}[caption=Вектори с латинските букви, label=listing0051]
+letters
+ [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r"
+[19] "s" "t" "u" "v" "w" "x" "y" "z"
+
+LETTERS
+ [1] "A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R"
+[19] "S" "T" "U" "V" "W" "X" "Y" "Z"
+\end{lstlisting}
+
+В R има два специално предефинирани вектора, които съдържат буквите от латинската азбука (Листинг \ref{listing0051}).
 
 \section{Липсващи стойности}
 
@@ -186,12 +223,16 @@ as.numeric( f2 )
 x <- c(1, NA, 3, NA, 5)
 x
 [1]  1 NA  3 NA  5
+
 is.na( x )
 [1] FALSE  TRUE FALSE  TRUE FALSE
+
 mean( x )
 [1] NA
+
 median( x )
 [1] NA
+
 sd( x )
 [1] NA
 \end{lstlisting}
@@ -202,19 +243,459 @@ sd( x )
 y <- c(1, NULL, 3, NULL, 5)
 y
 [1] 1 3 5
+
 is.na( y )
 [1] FALSE FALSE FALSE
+
 mean( y )
 [1] 3
+
 median( y )
 [1] 3
+
 sd( y )
 [1] 2
+
 is.null( y )
 [1] FALSE
 \end{lstlisting}
 
 Тъй като на практика векторът се редуцира с броя на NULL стойностите си, то функцията is.null не е векторизирана, а се отнася за целия обект. 
+
+\section{Рамкирани данни}
+
+Рамкираните данни\index{рамкирани данни} (data.frame) са една от най-полезните структури от данни в езика R. Най-интуитивната аналогия за рамкирани данни е един лист (data sheet) в Microsft Excel, състоящ се от колони и редове. В термините на статистиката, всяка колона е наблюдавана променлива, а всеки ред е едно конкретно наблюдение (измерване). В термините на R, всяка колона е вектор, а дължината на всичките вектори е една и съща. По този начин всяка колона може да съдържа различни типове данни. Също така, в рамките на една колона всички елементи са от един и същи тип. 
+
+Съществуват множество начини да се създадат рамкирани данни, но най-лесният е с функцията data.frame.
+
+\begin{lstlisting}[caption=Създаване на рамкирани данни, label=listing0035]
+x <- sample(1:5)
+x
+[1] 4 1 3 2 5
+
+y <- sample(-2:2)
+y
+[1]  0 -2  1 -1  2
+
+q <- c("Football", "Basketball", "Volleyball", "Handball", "Rugby")
+q
+[1] "Football"   "Basketball" "Volleyball" "Handball"   "Rugby"
+
+df1 <- data.frame(x, y, q)
+df1
+  x  y          q
+1 4  0   Football
+2 1 -2 Basketball
+3 3  1 Volleyball
+4 2 -1   Handball
+5 5  2      Rugby
+\end{lstlisting}
+
+Листинг \ref{listing0035} демонстрира създаването на рамкирани данни от два вектора с числа (sample служи за разбъркване на стойностите по случаен начин) и един вектор със символни низове. Така получената структура е с размери 5x3 и се състои от три вектора. Имената на колоните се вземат служебно, но е възможно те да бъдат определени при създаването на самата структура (Листинг \ref{listing0036}).
+
+\begin{lstlisting}[caption=Създаване на рамкирани данни с имена на колоните, label=listing0036]
+df2 <- data.frame(First=x, Second=y, Sport=q)
+rownames( df2 ) <- c("One", "Two", "Three", "Four", "Five")
+df2
+      First Second      Sport
+One       4      0   Football
+Two       1     -2 Basketball
+Three     3      1 Volleyball
+Four      2     -1   Handball
+Five      5      2      Rugby
+\end{lstlisting}
+
+Рамкираните данни имат множество атрибути, като най-съществените са броя редове и броя колони (Листинг \ref{listing0037}).
+
+\begin{lstlisting}[caption=Атрибути на рамкираните данни, label=listing0037]
+nrow( df1 )
+[1] 5
+
+ncol( df1 )
+[1] 3
+
+dim( df1 )
+[1] 5 3
+
+names( df2 )
+[1] "First"  "Second" "Sport"
+
+rownames( df2 )
+[1] "One"   "Two"   "Three" "Four"  "Five" 
+
+head(df1, n=3)
+  x  y          q
+1 4  0   Football
+2 1 -2 Basketball
+3 3  1 Volleyball
+
+tail(df1, n=3)
+  x  y          q
+3 3  1 Volleyball
+4 2 -1   Handball
+5 5  2      Rugby
+
+class( df1 )
+[1] "data.frame"
+\end{lstlisting}
+
+Също така, може да се проверят имената на колоните, имената на редовете, с функцията head първите няколко реда, а с функцията tail последните няколко реда.
+
+\begin{lstlisting}[caption=Фактори в рамковите данни, label=listing0038]
+df2[1, 2]
+[1] 0
+
+df2[3, 2:3]
+      Second      Sport
+Three      1 Volleyball
+
+df2$Sport
+[1] Football   Basketball Volleyball Handball   Rugby     
+Levels: Basketball Football Handball Rugby Volleyball
+
+class( df2$Sport )
+[1] "factor"
+
+df2$Sport[1:2]
+[1] Football   Basketball
+Levels: Basketball Football Handball Rugby Volleyball
+
+df2[3, ]
+      First Second      Sport
+Three     3      1 Volleyball
+
+df2[, c("First", "Sport")]
+      First      Sport
+One       4   Football
+Two       1 Basketball
+Three     3 Volleyball
+Four      2   Handball
+Five      5      Rugby
+\end{lstlisting}
+
+Рамкираните данни позволяват достъп до елементите като индекси\index{достъп по индекс} на двумерен масив или директно с адресиране на конкретна колона (Листинг \ref{listing0038}). Достъпът до цял ред става без указване на колона. За достъп до колоните по име се съставя вектор с имената на колоните. 
+
+\begin{lstlisting}[caption=Вътрешно представяне на факторите, label=listing0039]
+f1 <- factor( c("Sofia", "Plovdiv", "Varna", "Burgas", "Ruse") )
+f1
+[1] Sofia   Plovdiv Varna   Burgas  Ruse   
+Levels: Burgas Plovdiv Ruse Sofia Varna
+
+model.matrix(~f1 - 1)
+  f1Burgas f1Plovdiv f1Ruse f1Sofia f1Varna
+1        0         0      0       1       0
+2        0         1      0       0       0
+3        0         0      0       0       1
+4        1         0      0       0       0
+5        0         0      1       0       0
+attr(,"assign")
+[1] 1 1 1 1 1
+attr(,"contrasts")
+attr(,"contrasts")$f1
+[1] "contr.treatment"
+\end{lstlisting}
+
+Тъй като факторите са малко по-различни от векторите, как се представят вътрешно в рамкираните данни може да се проследи с функцията model.matrix (Листинг \ref{listing0039}).
+
+\section{Списъци}
+
+В някои ситуации е нужно да се ползва контейнер, който да съдържа обекти от различни типове. В R това се постига със списъчните структури. Този тип структури могат да съдържат голям брой и различни по типове елементи. Списъците се създават с функцията list (Листинг \ref{listing0040}).
+
+\begin{lstlisting}[caption=Създаване на списък, label=listing0040]
+l1 <- list(1, 2, 3, 4, 5)
+l1
+[[1]]
+[1] 1
+
+[[2]]
+[1] 2
+
+[[3]]
+[1] 3
+
+[[4]]
+[1] 4
+
+[[5]]
+[1] 5
+\end{lstlisting}
+
+Всеки елемент в списъка е самостоятелен (Листинг \ref{listing0040}), но е възможно да има и списък с единствен елемент, който е вектор (Листинг \ref{listing0041}).
+
+\begin{lstlisting}[caption=Вектор в списък, label=listing0041]
+l2 <- list( c(1, 2, 3, 4, 5) )
+l2
+[[1]]
+[1] 1 2 3 4 5
+\end{lstlisting}
+
+Разнородни елементи на списък са показани в листинг \ref{listing0042}.
+
+\begin{lstlisting}[caption=Списък с разнородни данни, label=listing0042]
+l3 <- list( df2, 1:5, l1 )
+l3
+[[1]]
+      First Second      Sport
+One       4      0   Football
+Two       1     -2 Basketball
+Three     3      1 Volleyball
+Four      2     -1   Handball
+Five      5      2      Rugby
+
+[[2]]
+[1] 1 2 3 4 5
+
+[[3]]
+[[3]][[1]]
+[1] 1
+
+[[3]][[2]]
+[1] 2
+
+[[3]][[3]]
+[1] 3
+
+[[3]][[4]]
+[1] 4
+
+[[3]][[5]]
+[1] 5
+\end{lstlisting}
+
+По аналогия с рамкираните данни, списъците също могат да съдържат наименования на елементите си (Листинг \ref{listing0043}).
+
+\begin{lstlisting}[caption=Названия на елементите в списъка, label=listing0043]
+names( l3 ) <- c("Frame", "Vector", "Element")
+l3
+$Frame
+      First Second      Sport
+One       4      0   Football
+Two       1     -2 Basketball
+Three     3      1 Volleyball
+Four      2     -1   Handball
+Five      5      2      Rugby
+
+$Vector
+[1] 1 2 3 4 5
+
+$Element
+$Element[[1]]
+[1] 1
+
+$Element[[2]]
+[1] 2
+
+$Element[[3]]
+[1] 3
+
+$Element[[4]]
+[1] 4
+
+$Element[[5]]
+[1] 5
+\end{lstlisting}
+
+Достъпа до елементите на списъка може да стане по индекс\index{достъп по индекс} или по название на елемента (Листинг \ref{listing0044}).
+
+\begin{lstlisting}[caption=Достъп до елементите на списъка, label=listing0044]
+l3[ 1 ]
+$Frame
+      First Second      Sport
+One       4      0   Football
+Two       1     -2 Basketball
+Three     3      1 Volleyball
+Four      2     -1   Handball
+Five      5      2      Rugby
+
+l3[ "Frame" ]
+$Frame
+      First Second      Sport
+One       4      0   Football
+Two       1     -2 Basketball
+Three     3      1 Volleyball
+Four      2     -1   Handball
+Five      5      2      Rugby
+\end{lstlisting}
+
+Чрез вложено позоваване може да се достъпи конкретен елемент (Листинг \ref{listing0045}).
+
+\begin{lstlisting}[caption=Вложено позоваване, label=listing0045]
+l3[[1]]
+      First Second      Sport
+One       4      0   Football
+Two       1     -2 Basketball
+Three     3      1 Volleyball
+Four      2     -1   Handball
+Five      5      2      Rugby
+
+l3[["Frame"]]$Sport
+[1] Football   Basketball Volleyball Handball   Rugby     
+Levels: Basketball Football Handball Rugby Volleyball
+\end{lstlisting}
+
+Добавянето на елемент към списъка става с директно позоваване към елемента на който индекс трябва да попадне новият елемент, дори и това място да не е предварително предвидено (Листинг \ref{listing0046}).
+
+\begin{lstlisting}[caption=Добавяне на елемент, label=listing0046]
+l3[ 4 ] <- "Games"
+l3
+$Frame
+      First Second      Sport
+One       4      0   Football
+Two       1     -2 Basketball
+Three     3      1 Volleyball
+Four      2     -1   Handball
+Five      5      2      Rugby
+
+$Vector
+[1] 1 2 3 4 5
+
+$Element
+$Element[[1]]
+[1] 1
+
+$Element[[2]]
+[1] 2
+
+$Element[[3]]
+[1] 3
+
+$Element[[4]]
+[1] 4
+
+$Element[[5]]
+[1] 5
+
+[[4]]
+[1] "Games"
+
+length( l3 )
+[1] 4
+\end{lstlisting}
+
+\section{Матрици}
+
+Една от най-важните структури в математиката и статистиката е матрицата. Матриците\index{матрици} в R много наподобяват рамкираните данни, тъй като се състоят от колони и редове, с разликата че всички елементи на матрицата са еднотипни. По аналогия с векторите, матриците също се обработват с матрична аритметика, а не с обикаляне на елементите един по един. 
+
+\begin{lstlisting}[caption=Създаване на матрици, label=listing0047]
+m1 <- matrix(1:6, nrow=3)
+m1
+     [,1] [,2]
+[1,]    1    4
+[2,]    2    5
+[3,]    3    6
+
+m2 <- matrix(7:12, nrow=3)
+m2
+     [,1] [,2]
+[1,]    7   10
+[2,]    8   11
+[3,]    9   12
+
+m3 <- matrix(7:18, nrow=2)
+m3
+     [,1] [,2] [,3] [,4] [,5] [,6]
+[1,]    7    9   11   13   15   17
+[2,]    8   10   12   14   16   18
+\end{lstlisting}
+
+Създаването на матрици става с функцията matrix (Листинг \ref{listing0047}).
+
+\begin{lstlisting}[caption=Операции с матрици, label=listing0048]
+nrow( m1 )
+[1] 3
+
+ncol( m1 )
+[1] 2
+
+dim( m1 )
+[1] 3 2
+
+m1 + m2
+     [,1] [,2]
+[1,]    8   14
+[2,]   10   16
+[3,]   12   18
+ 
+m1 * m2
+     [,1] [,2]
+[1,]    7   40
+[2,]   16   55
+[3,]   27   72
+
+m1 == m2
+      [,1]  [,2]
+[1,] FALSE FALSE
+[2,] FALSE FALSE
+[3,] FALSE FALSE
+\end{lstlisting}
+
+Повечето матрични операции се изпълняват елемент за елемент (Листинг \ref{listing0048}), но матричното умножение е малко по-особено тъй като изисква съчетаване на размерите по колони и редове (Листинг \ref{listing0049}).
+
+\begin{lstlisting}[caption=Матрично умножение, label=listing0049]
+m1 %*% t(m2)
+     [,1] [,2] [,3]
+[1,]   47   52   57
+[2,]   64   71   78
+[3,]   81   90   99
+\end{lstlisting}
+
+Както при рамкираните данни, така и при матриците може да има имена на колоните и редовете (Листинг \ref{listing0050}).
+
+\begin{lstlisting}[caption=Имена на колоните и редовете, label=listing0050]
+colnames( m1 ) <- c("First", "Second")
+rownames( m1 ) <- c("One", "Two", "Three")
+m1
+      First Second
+One       1      4
+Two       2      5
+Three     3      6
+
+colnames( m2 ) <- c("Left", "Right")
+rownames( m2 ) <- c("1st", "2nd", "3rd")
+m2
+    Left Right
+1st    7    10
+2nd    8    11
+3rd    9    12
+\end{lstlisting}
+
+Функцията t служи за транспониране на матрица. Транспонирането най-често се налага при матричното умножение (Листинг \ref{listing0049}).
+
+\section{Масиви}
+
+Масивът\index{масиви} по своята същност е многомерен вектор. Елементите на масива са еднотипни и достъпът до тях също се осъществява по индекс с квадратни скоби. Първият индекс е за ред, а вторият за колона и така нататък за по-високите размерности.
+
+\begin{lstlisting}[caption=Работа с масиви, label=listing0052]
+a1 <- array(1:12, dim = c(2, 3, 2))
+a1
+, , 1
+
+     [,1] [,2] [,3]
+[1,]    1    3    5
+[2,]    2    4    6
+
+, , 2
+
+     [,1] [,2] [,3]
+[1,]    7    9   11
+[2,]    8   10   12
+
+a1[1, , ]
+     [,1] [,2]
+[1,]    1    7
+[2,]    3    9
+[3,]    5   11
+ 
+a1[1, , 1]
+[1] 1 3 5
+ 
+a1[, , 1]
+     [,1] [,2] [,3]
+[1,]    1    3    5
+[2,]    2    4    6
+\end{lstlisting}
+
+Основната разлика между матриците и масивите е, че матриците са ограничено до две размерности, докато масивите могат да имат много измерения.
 
 \section*{Заключение}
 

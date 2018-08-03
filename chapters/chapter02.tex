@@ -226,12 +226,16 @@ is.numeric( a )
 
 \begin{lstlisting}[caption=Използване на целочислен тип, label=listing0014]
 b <- 6L
+
 class( b )
 [1] "integer"
+
 is.numeric( b )
 [1] TRUE
+
 is.integer( b )
 [1] TRUE
+
 is.integer( a )
 [1] FALSE
 \end{lstlisting}
@@ -244,6 +248,7 @@ R допуска използването само на цели числа, ч�
 s1 <- "Simple text."
 s1
 [1] "Simple text."
+
 class( s1 )
 [1] "character"
 
@@ -251,6 +256,7 @@ s2 <- factor( "Another simple text." )
 s2
 [1] Another simple text.
 Levels: Another simple text.
+
 class( s2 )
 [1] "factor"
 \end{lstlisting}
@@ -260,8 +266,10 @@ class( s2 )
 \begin{lstlisting}[caption=Дължина на символен низ или числена стойност, label=listing0017]
 nchar( s1 )
 [1] 12
+
 nchar( s2 )
 Error in nchar(s2) : 'nchar()' requires a character vector
+
 nchar( a )
 [1] 1
 \end{lstlisting}
@@ -276,16 +284,20 @@ nchar( a )
 d1 <- as.Date("1979-04-21")
 d1
 [1] "1979-04-21"
+
 class( d1 )
 [1] "Date"
+
 as.numeric( d1 )
 [1] 3397
 
 d2 <- as.POSIXct("1980-02-12 05:25")
 d2
 [1] "1980-02-12 05:25:00 EET"
+
 class( d2 )
 [1] "POSIXct" "POSIXt" 
+
 as.numeric( d2 )
 [1] 319173900
 \end{lstlisting}
@@ -300,20 +312,26 @@ as.numeric( d2 )
 x1 <- TRUE
 x1
 [1] TRUE
+
 class( x1 )
 [1] "logical"
+
 is.logical( x1 )
 [1] TRUE
+
 as.numeric( x1 )
 [1] 1
 
 x2 <- F
 x2
 [1] FALSE
+
 class( x2 )
 [1] "logical"
+
 is.logical( x2 )
 [1] TRUE
+
 as.numeric( x2 )
 [1] 0
 \end{lstlisting}
@@ -323,8 +341,10 @@ as.numeric( x2 )
 \begin{lstlisting}[caption=Операции за сравнение, label=listing0020]
 2 == 3
 [1] FALSE
+
 5 != 6
 [1] TRUE
+
 "Peter" == "Ivan"
 [1] FALSE
 \end{lstlisting}
