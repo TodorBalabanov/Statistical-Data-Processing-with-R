@@ -8,12 +8,14 @@
 
 Данните в примерите до тази глава бяха фиксирани и се въвеждаха ръчно от конзолата, в интерактивен режим. Този начин на работа не е най-рационалния, когато се правят модели и с данните за модела се провеждат многократни експерименти. Обичайната практика е командите за съставянето на модела да бъдат написани в обикновен текстов файл, с разширение „.r“, а данните да бъдат зареждани от външен файл\index{четене от файл}. Този начин на работа позволява да бъдат създадени множество модели, които често се различават по нещо дребно, и да бъдат зареждани различни входни данни, примерно за различни периоди на измерване. 
 
+\subsection{CSV файлове}
+
 Продуктът R позволява множество различни начини за въвеждане на данни в системата, но най-достъпният начин е през CSV (Comma Separated Values) файлове. CSV файловият формат е текстов файлов формат, който позволява таблично представяне на данни (колони и редове). CSV може да бъде четен и редактиран с обикновен текстов редактор, като Notepad под Microsoft Windows, TextEdit под Mac OS X или Nano под Linux. CSV комфортно се визуализира и обработва от продуктите Microsoft Excel, OpenOffice Calc и Libre Calc. 
 
 \begin{lstlisting}[caption=Зареждане на данни от CSV файл, label=listing0053]
-data <- read.table(file="http://raw.githubusercontent.com/TodorBalabanov/Statistical-Data-Processing-with-R/master/data/tomato.csv", header=TRUE, sep=",")
+df <- read.table(file="http://raw.githubusercontent.com/TodorBalabanov/Statistical-Data-Processing-with-R/master/data/tomato.csv", header=TRUE, sep=",")
 
-head( data )
+head( df )
   Round             Tomato Price      Source Sweet Acid Color Texture Overall
 1     1         Simpson SM  3.99 Whole Foods   2.8  2.8   3.7     3.4     3.4
 2     1  Tuttorosso (blue)  2.99     Pioneer   3.3  2.8   3.4     3.0     2.9
@@ -29,7 +31,7 @@ head( data )
 5          14.4         15.2
 6          15.5         15.1
 
-tail( data )
+tail( df )
    Round                   Tomato Price      Source Sweet Acid Color Texture
 11     3       Scotts Backyard SM  0.00  Home Grown   1.6  2.9   3.1     2.4
 12     3 Di Casa Barone (organic) 12.80      Eataly   1.7  3.6   3.8     2.3
@@ -47,6 +49,42 @@ tail( data )
 \end{lstlisting}
 
 Зареждането на CSV в R най-ефективно се постига с функцията read.table (Листинг \ref{listing0053}). Резултатът от четенето е обект от тип рамкирани данни. При викането на функцията параметрите се подават с явно изписване на имената им. Точният адрес на файла се подава в кавички, а когато първият ред от данните е заглавен ред се подава флаг за заглавен ред. Третият аргумент е за указване на разделителя в редовете, тъй като не винаги този разделител е запетая. Често софтуерните продукти за електронни таблици поставят символа за табулация, като разделител между данните на един ред. Символът табулация попада в групата на белите символи (white spaces), тъй като не се изобразява видимо, а с празно пространство. Когато трябва да бъде подаден като аргумент за разделител се използва комбинацията от обратна наклонена черта и буквата t (\textbackslash t).
+
+\begin{lstlisting}[caption=Проверка на типовете\, които колоните имат, label=listing0054]
+sapply(df, class)
+        Round        Tomato         Price        Source         Sweet 
+    "integer"      "factor"     "numeric"      "factor"     "numeric" 
+         Acid         Color       Texture       Overall Avg.of.Totals 
+    "numeric"     "numeric"     "numeric"     "numeric"     "numeric" 
+ Total.of.Avg 
+    "numeric" 
+\end{lstlisting}
+
+При зареждане на данни от CSV файл по подразбиране текстовите колони се зареждат като фактори\index{фактори}, а не като вектори от символни низове (Листинг \ref{listing0054}). Тъй като използването на фактори има своите особености, понякога се налага зареждането да става в символни низове. За тези случаи функцията read.table има параметър stringsAsFactors, който може да се установи на FALSE и това ще предотврати зареждането на фактори (Листинг \ref{listing0055}).
+
+\begin{lstlisting}[caption=Зареждане на символни низове, label=listing0055]
+sapply(read.table(file="http://raw.githubusercontent.com/TodorBalabanov/Statistical-Data-Processing-with-R/master/data/tomato.csv", header=TRUE, sep=",", stringsAsFactors=FALSE), class)
+        Round        Tomato         Price        Source         Sweet 
+    "integer"   "character"     "numeric"   "character"     "numeric" 
+         Acid         Color       Texture       Overall Avg.of.Totals 
+    "numeric"     "numeric"     "numeric"     "numeric"     "numeric" 
+ Total.of.Avg 
+    "numeric"
+\end{lstlisting}
+
+Същият аргумент може да се използва и във функцията data.frame, когато от вектори се създават рамкирани данни. 
+
+Когато има проблеми с прочитането на CSV файловете, поради лошо форматиране или наличие на сепаратора за стойностите в редовете, в данните, то могат да се използват алтернативно функциите read.csv2 или read.delim2.
+
+\subsection{Excel файлове}
+
+Microsoft Excel е може би най-популярният инструмент за извършване на статистически анализи и въпреки това четенето на Excel файлове в R не е толкова лесно. Основните трудности идват от това, че Microsoft Excel е комерсиален софтуер и бинарните му файлови формати не са с отворен лиценз. Най-лесният начин за четене на данни от Excel е файловете да бъдат съхранени като CSV файлове. 
+
+Общността разработчици полага някои усилия да осигури четене на Excel файлове директно в R, но наличните пакети, като gdata, XLConnect, xlsReadWrite, далеч не са достатъчно надеждни и често изискват допълнителни софтуерни модули, като Java, Perl или 32 битова версия на R. В пакета RODBC съществува функция odbcConnectExcel2007, която чете Excel файлове, но тя изисква DSN (Data Source Name) връзка (най-често връзка към база данни). По своята структура, файловете след Excel 2007 са в XML формат, което би трябвало да улеснява разчитането им, но за момента R не предлага такава възможност. 
+
+\subsection{SQL бази данни}
+
+
 
 \section*{Заключение}
 
