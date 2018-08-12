@@ -78,13 +78,213 @@ sapply(read.table(file="http://raw.githubusercontent.com/TodorBalabanov/Statisti
 
 \subsection{Excel файлове}
 
-Microsoft Excel е може би най-популярният инструмент за извършване на статистически анализи и въпреки това четенето на Excel файлове в R не е толкова лесно. Основните трудности идват от това, че Microsoft Excel е комерсиален софтуер и бинарните му файлови формати не са с отворен лиценз. Най-лесният начин за четене на данни от Excel е файловете да бъдат съхранени като CSV файлове. 
+Microsoft Excel\index{електронни таблици} е може би най-популярният инструмент за извършване на статистически анализи и въпреки това четенето на Excel файлове в R не е толкова лесно. Основните трудности идват от това, че Microsoft Excel е комерсиален софтуер и бинарните му файлови формати не са с отворен лиценз. Най-лесният начин за четене на данни от Excel е файловете да бъдат съхранени като CSV файлове. 
 
 Общността разработчици полага някои усилия да осигури четене на Excel файлове директно в R, но наличните пакети, като gdata, XLConnect, xlsReadWrite, далеч не са достатъчно надеждни и често изискват допълнителни софтуерни модули, като Java, Perl или 32 битова версия на R. В пакета RODBC съществува функция odbcConnectExcel2007, която чете Excel файлове, но тя изисква DSN (Data Source Name) връзка (най-често връзка към база данни). По своята структура, файловете след Excel 2007 са в XML формат, което би трябвало да улеснява разчитането им, но за момента R не предлага такава възможност. 
 
 \subsection{SQL бази данни}
 
+Голямо количество от данните събирани до наши дни се съхраняват в бази данни\index{бази данни}. Голяма част от тези системи за управление на бази от данни са релационни и разчитат на езика SQL за манипулация на структурата или самите данни. За най-популярните релационни бази данни в R са достъпни пакети като RpostgreSQL или RmySQL. За други релационни бази данни, които не са съпровождани с конкретен R пакет може да се използва пакетът RODBC. Връзката към база данни може да е съпроводена с доста трудности и поради тази причина е създаден пакетът DBI. Този пакет позволява уеднаквен начин на работа с различните бази данни. 
 
+Боравенето с релационна база данни е извън обхвата на настоящото изложение и поради тази причина примерите са реализирани на SQLite, като една от най-достъпните и лесни за използване системи за управление на бази от данни. 
+
+Командният интерпретатор на R се изпълнява с конкретна работна директория. С функцията getwd тази директория може да бъде проверена, а с функцията setwd директорията може да бъде променена (Листинг \ref{listing0056}). 
+
+\begin{lstlisting}[caption=Работна директория, label=listing0056]
+getwd()
+[1] "/Users/todorbalabanov"
+
+setwd("~/Desktop")
+getwd()
+[1] "/Users/todorbalabanov/Desktop"
+\end{lstlisting}
+
+За улеснение при работата, работната директория се установява да бъде директорията на работния плот, където ще се разположи и файлът с данните. Файлът може да бъде свален и със средствата на операционната система, но R предоставя команда за тази операция (Листинг \ref{listing0057}).
+
+\begin{lstlisting}[caption=Сваляне на файл с данни, label=listing0057]
+download.file("https://github.com/TodorBalabanov/Statistical-Data-Processing-with-R/blob/master/data/diamonds.db?raw=true", destfile="./diamonds.db", mode="wb")
+
+trying URL 'https://github.com/TodorBalabanov/Statistical-Data-Processing-with-R/blob/master/data/diamonds.db?raw=true'
+
+Content type 'application/octet-stream' length 5909504 bytes (5.6 MB)
+==================================================
+downloaded 5.6 MB
+\end{lstlisting}
+
+Едно от многото предимства на SQLite е, че базата данни се помества в един единствен файл. Тъй като за SQLite е разработен конкретен R пакет, то той се използва за връзка с данните (Листинг \ref{listing0058}). При липса на конкретен пакет остава алтернативата за използване на RODBC.
+
+\begin{lstlisting}[caption=Връзка към базата данни, label=listing0058]
+library(RSQLite)
+
+driver <- dbDriver( "SQLite" )
+class( driver )
+[1] "SQLiteDriver"
+attr(,"package")
+[1] "RSQLite"
+
+connection <- dbConnect(driver, "./diamonds.db")
+class( connection )
+[1] "SQLiteConnection"
+attr(,"package")
+[1] "RSQLite"
+\end{lstlisting}
+
+След зареждането на пакета за работа с базата данни се зарежда драйверът. Променливата, която съдържа драйверът се подава като аргумент на функцията за осъществяване на връзка към базата данни. Командата за осъществяване на връзка към базата данни може да се различава за различните операционни системи, така че е съществено да се провери документацията на R за конкретната операционна система. 
+
+След като бъде изградена връзка към базата данни може да се изпълнят команди за изследване на структурата и данните (Листинг \ref{listing0059}).
+
+\begin{lstlisting}[caption=Изследване на базата данни, label=listing0059]
+dbListTables( connection )
+[1] "DiamondColors" "diamonds"      "sqlite_stat1" 
+
+dbListFields(connection, name="diamonds")
+ [1] "carat"   "cut"     "color"   "clarity" "depth"   "table"   "price"  
+ [8] "x"       "y"       "z"
+
+dbListFields(connection, name="DiamondColors")
+[1] "Color"       "Description" "Details"
+\end{lstlisting}
+
+След като структурата на базата данни е известна, над нея могат да се изпълняват всички валидни SQL заявки. Тази цел се постига с функцията dbGetQuery, която връща data.frame структура в резултат (Листинг \ref{listing0060}). 
+
+\begin{lstlisting}[caption=Изследване на базата данни, label=listing0060]
+# Simple select query.
+diamondsTable <- dbGetQuery(connection, "SELECT * FROM diamonds", stringsAsFactors = FALSE)
+colorTable <- dbGetQuery(connection, "SELECT * FROM DiamondColors", stringsAsFactors = FALSE)
+
+# Join between the two tables.
+diamondsJoin <-dbGetQuery(connection, "SELECT * FROM diamonds, DiamondColors WHERE diamonds.color = DiamondColors.Color", stringsAsFactors = FALSE)
+
+head(diamondsTable, n=3)
+  carat     cut color clarity depth table price    x    y    z
+1  0.23   Ideal     E     SI2  61.5    55   326 3.95 3.98 2.43
+2  0.21 Premium     E     SI1  59.8    61   326 3.89 3.84 2.31
+3  0.23    Good     E     VS1  56.9    65   327 4.05 4.07 2.31
+ 
+head(colorTable, n=3)
+  Color          Description                Details
+1     D Absolutely Colorless               No color
+2     E            Colorless Minute traces of color
+3     F            Colorless Minute traces of color
+
+head(diamondsJoin, n=3)
+  carat     cut color clarity depth table price    x    y    z Color
+1  0.23   Ideal     E     SI2  61.5    55   326 3.95 3.98 2.43     E
+2  0.21 Premium     E     SI1  59.8    61   326 3.89 3.84 2.31     E
+3  0.23    Good     E     VS1  56.9    65   327 4.05 4.07 2.31     E
+  Description                Details
+1   Colorless Minute traces of color
+2   Colorless Minute traces of color
+3   Colorless Minute traces of color
+\end{lstlisting}
+
+При затварянето на R сесията връзката към базата данни ще бъде прекратена, но добрата работна практика изисква всички ненужни повече ресурси да се освобождават веднага след като работата с тях приключи. За тази цел в R има команда за прекратяване на връзката към базата данни (Листинг \ref{listing0061}).
+
+\begin{lstlisting}[caption=Откачане на връзката към базата данни, label=listing0061]
+dbDisconnect( connection )
+\end{lstlisting}
+
+Важно е също да се има предвид, че R може да поддържа само една връзка към база данни в конкретен период от време. При нужда да се работи с повече от една база данни, връзките трябва да се редуват. 
+
+\subsection{Други статистически програми като източници на данни}
+
+Тъй като R е само една от алтернативите за статистическа обработка на данни, в реалната практика се използват множество други софтуерни решения, част от които разчитат на затворени (търговски) файлови формати\index{файлови формати} (примерно SPSS, SAS или Octave). За достъп до тези файлове пакетът foreign предлага множество функции, работещи по сходен начин на функцията read.table. Част от функциите са изброени в Таблица \ref{table0001}. 
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|r|} 
+ \rowcolor{lightgray}
+ \hline
+ Функция & Файлов формат \\ [0.1ex] 
+ \hline\hline
+ read.spss & SPSS \\
+ \hline
+ read.ssd & SAS \\
+ \hline
+ read.ocatave & Octave \\
+ \hline
+ read.dta & Stata \\
+ \hline
+ read.systat & Systat \\
+ \hline
+ read.mtp & Minitab \\
+ \hline
+\end{tabular}
+\caption{Функции за четене на данни}
+\label{table0001}
+\end{table}
+
+Параметрите на групата функции са подобни на параметрите подавани към read.table. В общия случай, функциите връщат резултат под формата на data.frame. За някои файлови формати (примерно SAS) може да се изисква валиден софтуерен лиценз. 
+
+\subsection{Бинарни файлове на R}
+
+При работа между различни R потребители е удачно информацията да се разменя в бинарният файлов формат поддържан от R (Rdata)\index{бинарни файлове}. Този файлов формат е бинарен и поддържа различните обекти, които са достъпни в процеса на работа с R. Голямо предимство на този файлов формат е, че е съвместим с различните операционни системи и може да се предават данни между различни инсталации на програмния продукт. 
+
+\begin{lstlisting}[caption=Използване на множество от данни, label=listing0062]
+tomato <- read.table(file="http://raw.githubusercontent.com/TodorBalabanov/Statistical-Data-Processing-with-R/master/data/tomato.csv", header=TRUE, sep=",")
+
+head(tomato, n=3)
+  Round             Tomato Price      Source Sweet Acid Color Texture Overall
+1     1         Simpson SM  3.99 Whole Foods   2.8  2.8   3.7     3.4     3.4
+2     1  Tuttorosso (blue)  2.99     Pioneer   3.3  2.8   3.4     3.0     2.9
+3     1 Tuttorosso (green)  0.99     Pioneer   2.8  2.6   3.3     2.8     2.9
+  Avg.of.Totals Total.of.Avg
+1          16.1         16.1
+2          15.3         15.3
+3          14.3         14.3
+\end{lstlisting}
+
+При наличен data.frame в общата памет (Листинг \ref{listing0062}), следва да се изпълнят команди за съхраняване, изтриване на общата памет и прочитане на съхранените данни (Листинг \ref{listing0063}).
+
+\begin{lstlisting}[caption=Запис и четене в RData файл, label=listing0063]
+save(tomato, file="./tomato.rdata")
+
+rm( tomato )
+
+head( tomato )
+Error in head(tomato) : object 'tomato' not found
+
+load("tomato.rdata")
+
+head(tomato, n=3)
+  Round             Tomato Price      Source Sweet Acid Color Texture Overall
+1     1         Simpson SM  3.99 Whole Foods   2.8  2.8   3.7     3.4     3.4
+2     1  Tuttorosso (blue)  2.99     Pioneer   3.3  2.8   3.4     3.0     2.9
+3     1 Tuttorosso (green)  0.99     Pioneer   2.8  2.6   3.3     2.8     2.9
+  Avg.of.Totals Total.of.Avg
+1          16.1         16.1
+2          15.3         15.3
+3          14.3         14.3
+\end{lstlisting}
+
+Всички обекти, които трябва да се съхранят в RData файла се изброяват преди името на самия файл. При възстановяването им от диска в общата памет те придобиват имената, които са имали по време на съхраняването. 
+
+\begin{lstlisting}[caption=Запис и четене на един обект, label=listing0064]
+saveRDS(c(21,04,1979), "object.rds")
+
+readRDS("object.rds")
+[1]   21    4 1979
+\end{lstlisting}
+
+Съществува и втора възможност за запазване на данни, под формата на RDS файл. Запазването става с функцията saveRDS\index{съхраняване на обект}, а прочитането с функцията readRDS\index{зареждане на обект}. Разликата с предходните функции е, че в този случай се съхранява само един обект, без да се запазва неговото име, и при прочитането резултатът трябва да се присвои изрично на променлива (Листинг \ref{listing0064}). 
+
+\subsection{Данни достъпни директно от R}
+
+Софтуерният продукт R, и някои от неговите пакети, идват с предварително заложени множества от данни\index{демонстрационни данни}. Този вид примерни данни основно се използват за демонстриране на възможностите, които R има или възможностите, които съответният пакет предоставя. За да бъдат ползвани тези данни е достатъчно да се знае в кой пакет се намират.
+
+\begin{lstlisting}[caption=Зареждане на примерни данни, label=listing0065]
+data(diamonds, package="ggplot2")
+
+head(diamonds, n=3)
+  carat     cut color clarity depth table price    x    y    z
+1  0.23   Ideal     E     SI2  61.5    55   326 3.95 3.98 2.43
+2  0.21 Premium     E     SI1  59.8    61   326 3.89 3.84 2.31
+3  0.23    Good     E     VS1  56.9    65   327 4.05 4.07 2.31
+\end{lstlisting}
+
+Зареждането става с функцията data и името на пакета. Като примерно, множеството данни за диамантите е налично в пакета ggplot2 (Листинг \ref{listing0065}). Списък на всички налични комплекти от данни може да се получи, ако функцията data се извика без аргументи. 
+
+\subsection{Четене на данни от JSON формат}
 
 \section*{Заключение}
 
