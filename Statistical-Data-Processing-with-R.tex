@@ -18,13 +18,14 @@
 % Служи за управление на заглавията.
 \usepackage{fancyheadings}
 \usepackage{listings}
+% Служи за списък на формулите.
+\usepackage{tocloft}
+\usepackage{amsmath,amssymb,amsthm}
 
 % Добавени от доц. Вера Ангелова.
-%\usepackage{amsmath,amssymb,amsthm}
 %\usepackage{longtable}
 %\usepackage{pifont}   
 %\usepackage{epsfig}
-%\usepackage{tocloft}
 %\usepackage{etoc}
 %\usepackage{wasysym}
 %\usepackage{eurosym}
@@ -83,8 +84,15 @@
 % Използва се за номерация на страниците.
 \renewcommand{\thepage}{\roman{page}}
 
-% Смяна на названието за списъка от листингите
+% Смяна на названието за списъка от листингите.
 \renewcommand{\lstlistlistingname}{Списък на листингите}
+
+% Смяна на названието за списъка от формули.
+\newcommand{\listequationsname}{Списък на формулите}
+\newlistof{listofequations}{equ}{\listequationsname}
+\newcommand{\listofequations}[1] {
+	\addcontentsline{equ}{listofequations}{\protect\numberline{\theequation}#1}\par
+}
 
 \setcounter{page}{-1}
 \thispagestyle{empty}
@@ -113,23 +121,29 @@
 \listoffigures
 \addcontentsline{toc}{chapter}{Списък на фигурите}
 
-% Списък с таблиците. 
-\newpage
-\listoftables
-\addcontentsline{toc}{chapter}{Списък на таблиците}
-
 % Списък с листингите.
 \newpage
 \lstlistoflistings
 \addcontentsline{toc}{chapter}{Списък на листингите}
 
-\include{chapters/introduction}
-\include{chapters/chapter01}
-\include{chapters/chapter02}
-\include{chapters/chapter03}
-\include{chapters/chapter04}
-\include{chapters/chapter05}
-\include{chapters/conclusion}
+% Списък с формулите. 
+\newpage
+%\listofequations
+\addcontentsline{toc}{chapter}{Списък на формулите}
+
+% Списък с таблиците. 
+\newpage
+\listoftables
+\addcontentsline{toc}{chapter}{Списък на таблиците}
+
+%\include{chapters/introduction}
+%\include{chapters/chapter01}
+%\include{chapters/chapter02}
+%\include{chapters/chapter03}
+%\include{chapters/chapter04}
+%\include{chapters/chapter05}
+\include{chapters/chapter06}
+%\include{chapters/conclusion}
 
 % Списък с използвана литература и източници на информация.
 \newpage
