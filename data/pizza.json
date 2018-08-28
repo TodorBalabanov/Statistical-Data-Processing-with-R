@@ -1,0 +1,102 @@
+[
+    {
+        "Name": "Di Fara Pizza",
+        "Details": [
+            {
+                "Address": "1424 Avenue J",
+                "City": "Brooklyn",
+                "State": "NY",
+                "Zip": "11230"
+            }
+        ]
+    },
+    {
+        "Name": "Fiore's Pizza",
+        "Details": [
+            {
+                "Address": "165 Bleecker St",
+                "City": "New York",
+                "State": "NY",
+                "Zip": "10012"
+            }
+        ]
+    },
+    {
+        "Name": "Juliana's",
+        "Details": [
+            {
+                "Address": "19 Old Fulton St",
+                "City": "Brooklyn",
+                "State": "NY",
+                "Zip": "11201"
+            }
+        ]
+    },
+    {
+        "Name": "Keste Pizza & Vino",
+        "Details": [
+            {
+                "Address": "271 Bleecker St",
+                "City": "New York",
+                "State": "NY",
+                "Zip": "10014"
+            }
+        ]
+    },
+    {
+        "Name": "L & B Spumoni Gardens",
+        "Details": [
+            {
+                "Address": "2725 86th St",
+                "City": "Brooklyn",
+                "State": "NY",
+                "Zip": "11223"
+            }
+        ]
+    },
+    {
+        "Name": "New York Pizza Suprema",
+        "Details": [
+            {
+                "Address": "413 8th Ave",
+                "City": "New York",
+                "State": "NY",
+                "Zip": "10001"
+            }
+        ]
+    },
+    {
+        "Name": "Paulie Gee's",
+        "Details": [
+            {
+                "Address": "60 Greenpoint Ave",
+                "City": "Brooklyn",
+                "State": "NY",
+                "Zip": "11222"
+            }
+        ]
+    },
+    {
+        "Name": "Ribalta",
+        "Details": [
+            {
+                "Address": "48 E 12th St",
+                "City": "New York",
+                "State": "NY",
+                "Zip": "10003"
+            }
+        ]
+    },
+    {
+        "Name": "Totonno's",
+        "Details": [
+            {
+                "Address": "1524 Neptune Ave",
+                "City": "Brooklyn",
+                "State": "NY",
+                "Zip": "11224"
+            }
+        ]
+    }
+]
+
