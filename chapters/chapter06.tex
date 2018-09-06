@@ -310,6 +310,236 @@ head(cbind(baseball$id,baseball$OBP), n=3)
 [3,] "mathebo01" "0.285714285714286"
 \end{lstlisting}
 
+
 Функцията with позволява да се упомене обекта с данните само един път, а в следващите аргументи да се използват само имената на колоните, без да се уточнява на кое множество данни принадлежат. 
+
+OBP коефициента за цялата кариера на играча не може да се пресметне чрез просто усредняване на сезонния OBP коефициент. Трябва да се пресметне и сумира числителят и след това да се раздели на сумата в делителя. Това може да се постигне с функцията ddply (Листинг \ref{listing0103}).
+
+\begin{lstlisting}[caption=Пресмятане на OBP за цялата кариера на играча, label=listing0103]
+career <- ddply(baseball, .variables="id", .fun=function(data){c(OBP=with(data,sum(h+bb+hbp)/sum(ab+bb+hbp+sf)))})
+
+career <- career[order(career$OBP,decreasing=TRUE), ]
+
+head(career, n=3)
+            id       OBP
+1089 willite01 0.4816861
+875   ruthba01 0.4742209
+658  mcgrajo01 0.4657478
+\end{lstlisting}
+
+Вградената потребителска функция извършва пресмятането, а след това ddply изпълнява пресмятането върху всеки играч. Полученият резултат е сортиран в нисходящ ред, според кариерния OBP коефициент.
+
+\subsection{llply}
+
+Функцията llply може да бъде използвана по аналогичен начин както се използва функцията lapply (Листинг \ref{listing0104}).
+
+\begin{lstlisting}[caption=Сума на всеки елемент в списък, label=listing0104]
+l1 <- list(m2=matrix(1:9,3), l2=1:5, m3=matrix(1:4,2), n1=2)
+
+llply(l1, sum)
+$m2
+[1] 45
+
+$l2
+[1] 15
+
+$m3
+[1] 10
+
+$n1
+[1] 2
+
+identical(lapply(l1,sum), llply(l1,sum))
+[1] TRUE
+
+laply(l1, sum)
+[1] 45 15 10  2
+\end{lstlisting}
+
+Функцията laply извършва същото пресмятане, но връща резултата под формата на вектор. 
+
+\subsection{Помощни функции и бързодействие}
+
+В пакета plyr са добавени група помощни функции, като функцията each, която позволява да се изпращат повече от една агрегатна функция на функцията aggregate (Листинг \ref{listing0105}). Недостатък на each е, че тя отнема възможността за изпращане на допълнителни параметри. 
+
+\begin{lstlisting}[caption=Повече от една агрегатни функции, label=listing0105]
+library(ggplot2)
+
+aggregate(price~cut, diamonds, each(mean, median))
+        cut price.mean price.median
+1      Fair   4358.758     3282.000
+2      Good   3928.864     3050.500
+3 Very Good   3981.760     2648.000
+4   Premium   4584.258     3185.000
+5     Ideal   3457.542     1810.000
+\end{lstlisting}
+
+Друга полезна функция е idata.frame, която позволява създаването на референция към data.frame, така че формирането на подмножества да става по-бързо и при значително по-ниска консумация на оперативна памет (Листинг \ref{listing0106}). 
+
+\begin{lstlisting}[caption=Бързодействие при използване на референции, label=listing0106]
+system.time(dlply(baseball, "id", nrow))
+   user  system elapsed 
+  0.159   0.009   0.169 
+
+reference <- idata.frame( baseball )
+
+system.time(dlply(reference, "id", nrow))
+   user  system elapsed 
+  0.178   0.005   0.183
+\end{lstlisting}
+
+Ускорението което ще се постигне много зависи от размера на данните и от вида на пресмятането, което се извършва над тях. Пакетът plyr често води до компромис с бързодействието в замяна на по-голямо удобство при пресмятането. Повечето функции в пакета може да се изпълнят и с функции от базовата инсталация, plyr просто дава по-удобен начин за пресмятане. 
+
+\section{Пакетът data.table}
+
+Този пакет е създаден с идеята да увеличи възможностите за използване на data.frame структурата от данни. Пакетът изисква малко по-различен синтаксис за работа, спрямо този който вече е наложен при използването на data.frame. Бързодействието при data.table основно се дължи на това, че вътрешната реализация е аналогична на индексите при базите данни. Това позволява по-бърз достъп до данните, по-бързи операции за групиране и по-бързи операции за сливане (join). 
+
+\begin{lstlisting}[caption=Създаване на data.table, label=listing0107]
+library(data.table)
+
+df <- data.frame(x1=10:1, x2=letters[11:20], x3=LETTERS[1:10], x4=rep(c("One", "Two", "Three"), length.out=10))
+ 
+df
+   x1 x2 x3    x4
+1  10  k  A   One
+2   9  l  B   Two
+3   8  m  C Three
+4   7  n  D   One
+5   6  o  E   Two
+6   5  p  F Three
+7   4  q  G   One
+8   3  r  H   Two
+9   2  s  I Three
+10  1  t  J   One
+
+class( df$x2 )
+[1] "factor"
+
+dt <- data.table(x1=10:1, x2=letters[11:20], x3=LETTERS[1:10], x4=rep(c("One", "Two", "Three"), length.out=10))
+ 
+dt
+    x1 x2 x3    x4
+ 1: 10  k  A   One
+ 2:  9  l  B   Two
+ 3:  8  m  C Three
+ 4:  7  n  D   One
+ 5:  6  o  E   Two
+ 6:  5  p  F Three
+ 7:  4  q  G   One
+ 8:  3  r  H   Two
+ 9:  2  s  I Three
+10:  1  t  J   One
+
+class( dt$x2 )
+[1] "character"
+\end{lstlisting}
+
+Създаването на data.table не се различава особено от създаването на data.frame (Листинг \ref{listing0107}). Зареждането на данни е идентично с разликата, че data.frame преобразува символните низове до фактори, докато data.table ги запазва, като символни низове. 
+
+\begin{lstlisting}[caption=Зареждане на data.table от data.frame, label=listing0108]
+diamonds <- data.table(diamonds)
+ 
+diamonds
+       carat       cut color clarity depth table price    x    y    z
+    1:  0.23     Ideal     E     SI2  61.5    55   326 3.95 3.98 2.43
+    2:  0.21   Premium     E     SI1  59.8    61   326 3.89 3.84 2.31
+    3:  0.23      Good     E     VS1  56.9    65   327 4.05 4.07 2.31
+    4:  0.29   Premium     I     VS2  62.4    58   334 4.20 4.23 2.63
+    5:  0.31      Good     J     SI2  63.3    58   335 4.34 4.35 2.75
+   ---                                                               
+53936:  0.72     Ideal     D     SI1  60.8    57  2757 5.75 5.76 3.50
+53937:  0.72      Good     D     SI1  63.1    55  2757 5.69 5.75 3.61
+53938:  0.70 Very Good     D     SI1  62.8    60  2757 5.66 5.68 3.56
+53939:  0.86   Premium     H     SI2  61.0    58  2757 6.15 6.12 3.74
+53940:  0.75     Ideal     D     SI2  62.2    55  2757 5.83 5.87 3.64
+\end{lstlisting}
+
+Създаването на data.table от data.frame става, чрез просто извикване на функцията (Листинг \ref{listing0108}). При разпечатването на резултата има разлика в това, че се показват първите пет и последните пет реда от данните. 
+
+\begin{lstlisting}[caption=Достъп до редовете, label=listing0109]
+dt[1:2, ]
+   x1 x2 x3  x4
+1: 10  k  A One
+2:  9  l  B Two
+
+dt[dt$x1>=7, ]
+   x1 x2 x3    x4
+1: 10  k  A   One
+2:  9  l  B   Two
+3:  8  m  C Three
+4:  7  n  D   One
+
+dt[x1>=7, ]
+   x1 x2 x3    x4
+1: 10  k  A   One
+2:  9  l  B   Two
+3:  8  m  C Three
+4:  7  n  D   One
+\end{lstlisting}
+
+Достъпът до редовете се осъществява по аналогичен начин, както е при data.frame (Листинг \ref{listing0109}). Третото позоваване е възможно, тъй като data.table знае как да открие нужната колона и без да е указана точната data.table променлива. 
+
+\begin{lstlisting}[caption=Достъп до колоните, label=listing0110]
+dt[,list(x3,x4)]
+    x3    x4
+ 1:  A   One
+ 2:  B   Two
+ 3:  C Three
+ 4:  D   One
+ 5:  E   Two
+ 6:  F Three
+ 7:  G   One
+ 8:  H   Two
+ 9:  I Three
+10:  J   One
+
+dt[, x1]
+ [1] 10  9  8  7  6  5  4  3  2  1
+
+dt[,list(x2)]
+    x2
+ 1:  k
+ 2:  l
+ 3:  m
+ 4:  n
+ 5:  o
+ 6:  p
+ 7:  q
+ 8:  r
+ 9:  s
+10:  t
+
+dt[, "x4", with=FALSE]
+       x4
+ 1:   One
+ 2:   Two
+ 3: Three
+ 4:   One
+ 5:   Two
+ 6: Three
+ 7:   One
+ 8:   Two
+ 9: Three
+10:   One
+
+td[, c("x2", "x3"), with=FALSE]
+    x2 x3
+ 1:  k  A
+ 2:  l  B
+ 3:  m  C
+ 4:  n  D
+ 5:  o  E
+ 6:  p  F
+ 7:  q  G
+ 8:  r  H
+ 9:  s  I
+10:  t  J
+\end{lstlisting}
+
+Достъпът до колоните се осъществява малко по-различно спрямо data.frame (Листинг \ref{listing0110}). За да се позоват колоните като символни низове (примерно получени след някакво пресмятане) трябва да се подаде лъжа на параметъра with. 
+
+\subsection{Ключове}
+
+
 
 \section*{Заключение}
