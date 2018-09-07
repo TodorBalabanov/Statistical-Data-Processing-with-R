@@ -1,4 +1,4 @@
-﻿\newpage
+\newpage
 \chapter{Групиране на данни}
 \label{chapter06}
 
@@ -438,7 +438,7 @@ class( dt$x2 )
 
 \begin{lstlisting}[caption=Зареждане на data.table от data.frame, label=listing0108]
 diamonds <- data.table(diamonds)
- 
+
 diamonds
        carat       cut color clarity depth table price    x    y    z
     1:  0.23     Ideal     E     SI2  61.5    55   326 3.95 3.98 2.43
@@ -540,6 +540,149 @@ td[, c("x2", "x3"), with=FALSE]
 
 \subsection{Ключове}
 
+При наличие на няколко таблици в паметта, то с тях може да се изпълнят серия операции. Като начало, списък с наличните таблици може да се получи чрез функцията tables (Листинг \ref{listing0111}).
 
+\begin{lstlisting}[caption=Операции с таблици, label=listing0111]
+tables()
+       NAME   NROW NCOL MB                                    COLS KEY
+1: diamonds 53,940   10  3 carat,cut,color,clarity,depth,table,...    
+2:       dt     10    4  0                             x1,x2,x3,x4    
+Total: 3MB
+
+setkey(dt, x4)
+
+dt
+    x1 x2 x3    x4
+ 1: 10  k  A   One
+ 2:  7  n  D   One
+ 3:  4  q  G   One
+ 4:  1  t  J   One
+ 5:  8  m  C Three
+ 6:  5  p  F Three
+ 7:  2  s  I Three
+ 8:  9  l  B   Two
+ 9:  6  o  E   Two
+10:  3  r  H   Two
+
+tables()
+       NAME   NROW NCOL MB                                    COLS KEY
+1: diamonds 53,940   10  3 carat,cut,color,clarity,depth,table,...    
+2:       dt     10    4  0                             x1,x2,x3,x4  x4
+Total: 3MB
+
+key( dt )
+[1] "x4"
+
+dt["One", ]
+   x1 x2 x3  x4
+1: 10  k  A One
+2:  7  n  D One
+3:  4  q  G One
+4:  1  t  J One
+
+dt[c("One","Two"), ]
+   x1 x2 x3  x4
+1: 10  k  A One
+2:  7  n  D One
+3:  4  q  G One
+4:  1  t  J One
+5:  9  l  B Two
+6:  6  o  E Two
+7:  3  r  H Two
+
+setkey(diamonds, cut, color)
+
+diamonds
+       carat   cut color clarity depth table price    x    y    z
+    1:  0.75  Fair     D     SI2  64.6    57  2848 5.74 5.72 3.70
+    2:  0.71  Fair     D     VS2  56.9    65  2858 5.89 5.84 3.34
+    3:  0.90  Fair     D     SI2  66.9    57  2885 6.02 5.90 3.99
+    4:  1.00  Fair     D     SI2  69.3    58  2974 5.96 5.87 4.10
+    5:  1.01  Fair     D     SI2  64.6    56  3003 6.31 6.24 4.05
+   ---                                                           
+53936:  0.71 Ideal     J     SI1  60.6    57  2700 5.78 5.83 3.52
+53937:  0.81 Ideal     J     VS2  62.1    56  2708 5.92 5.97 3.69
+53938:  0.84 Ideal     J     VS2  61.1    57  2709 6.09 6.12 3.73
+53939:  0.82 Ideal     J     VS2  61.6    56  2741 6.00 6.04 3.71
+53940:  0.83 Ideal     J     VS2  62.3    55  2742 6.01 6.03 3.75
+
+diamonds[J("Fair", "J"), ]
+     carat  cut color clarity depth table price    x    y    z
+  1:  1.05 Fair     J     SI2  65.8    59  2789 6.41 6.27 4.18
+  2:  1.00 Fair     J     VS2  65.7    59  2811 6.14 6.07 4.01
+  3:  0.99 Fair     J     SI1  55.0    61  2812 6.72 6.67 3.68
+  4:  0.90 Fair     J     VS2  65.0    56  2815 6.08 6.04 3.94
+  5:  0.91 Fair     J     VS2  64.4    62  2854 6.06 6.03 3.89
+ ---                                                          
+115:  0.90 Fair     J     SI1  64.6    61  2438 5.92 5.87 3.81
+116:  0.96 Fair     J     SI1  67.3    56  2517 6.06 6.01 4.06
+117:  0.90 Fair     J     SI2  66.6    54  2536 6.05 5.99 4.01
+118:  0.97 Fair     J     SI2  60.8    67  2538 6.41 6.32 3.87
+119:  1.01 Fair     J     SI2  66.9    58  2683 6.13 6.07 4.08
+\end{lstlisting}
+
+Както се вижда, нито една от таблиците няма присвоен ключ. Ключът е индексирана колона, която дава допълнително бързодействие при извършването на някои операции. При наличие на ключово поле е възможно изборът на редове да става и чрез подаване на стойности от ключовото поле. Ключът може да бъде и съставен, ако съдържа повече от едно поле. С функцията J служи за достъп до редовете според стойности на съставния ключ. 
+
+\subsection{Агрегация}
+
+Основното предимство на индексираните данни е бързодействието при изпълнението на агрегатни функции. Въпреки че aggregate и фамилията функции d*ply работят с data.table обекти (Листинг \ref{listing0112}), то използването им е свързано с бавно изпълнение. 
+
+\begin{lstlisting}[caption=Агрегатни функции, label=listing0112]
+aggregate(price~cut, diamonds, mean)
+        cut    price
+1      Fair 4358.758
+2      Good 3928.864
+3 Very Good 3981.760
+4   Premium 4584.258
+5     Ideal 3457.542
+
+diamonds[, list(price=mean(price)), by=cut]
+         cut    price
+1:      Fair 4358.758
+2:      Good 3928.864
+3: Very Good 3981.760
+4:   Premium 4584.258
+5:     Ideal 3457.542
+
+diamonds[, list(price=mean(price)), by=list(cut,color)]
+          cut color    price
+ 1:      Fair     D 4291.061
+ 2:      Fair     E 3682.312
+ 3:      Fair     F 3827.003
+ 4:      Fair     G 4239.255
+ 5:      Fair     H 5135.683
+ 6:      Fair     I 4685.446
+ 7:      Fair     J 4975.655
+...
+29:     Ideal     D 2629.095
+30:     Ideal     E 2597.550
+31:     Ideal     F 3374.939
+32:     Ideal     G 3720.706
+33:     Ideal     H 3889.335
+34:     Ideal     I 4451.970
+35:     Ideal     J 4918.186
+          cut color    price
+
+diamonds[, list(price=mean(price),carat=sum(carat)), by=list(cut,color)]
+          cut color    price   carat
+ 1:      Fair     D 4291.061  149.98
+ 2:      Fair     E 3682.312  191.88
+ 3:      Fair     F 3827.003  282.27
+ 4:      Fair     G 4239.255  321.48
+ 5:      Fair     H 5135.683  369.41
+ 6:      Fair     I 4685.446  209.66
+ 7:      Fair     J 4975.655  159.60
+...
+29:     Ideal     D 2629.095 1603.38
+30:     Ideal     E 2597.550 2257.50
+31:     Ideal     F 3374.939 2509.20
+32:     Ideal     G 3720.706 3422.29
+33:     Ideal     H 3889.335 2490.52
+34:     Ideal     I 4451.970 1910.97
+35:     Ideal     J 4918.186  952.98
+          cut color    price   carat
+\end{lstlisting}
+
+По-добрият вариант е да се използват вградените в data.table агрегатни функции. За да бъде агрегацията по повече от една колона, то нужните колони се подават като списък. За разлика от предишната агрегация, тук могат да се подават различни агрегатни функции (средна и сума, в показания пример), както и да се ползват списък от колони за групиране и за агрегиране. 
 
 \section*{Заключение}
