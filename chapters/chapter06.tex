@@ -1,4 +1,4 @@
-﻿\newpage
+\newpage
 \chapter{Групиране и обхождане на данни}
 \label{chapter06}
 
@@ -810,7 +810,7 @@ diamonds %>% slice(-1)
 
 Освен филтриране по логически израз е възможно избирането на редове по зададени индекси. За тази цел се ползва функцията slice (Листинг \ref{listing0119}). Индексите могат да се подадат под формата на вектор. Когато индексите са отрицателни, това означава, че тези редове няма да бъдат част от върнатия резултат.
 
-\subsection{Модификация и обобщение}
+\subsection{Модификация, обобщение, групиране и подреждане}
 
 Създаването или модифицирането на колони в множеството от данни се извършва с функцията mutate (Листинг \ref{listing0120}). 
 
@@ -859,7 +859,120 @@ diamonds %>% summarize(AveragePrice=mean(price), MedianPrice=median(price), Aver
 
 Удобното при функцията summarize е, че тя позволява изчисление по няколко различни агрегатни функции и също така позволява на колоните да се зададат имена. 
 
-\subsection{Групиране и подреждане}
+\begin{lstlisting}[caption=Групиране при обобщение, label=listing0123]
+diamonds %>% group_by(cut, color) %>% summarize(AveragePrice=mean(price), SumCarat=sum(carat))
+# A tibble: 35 x 4
+# Groups:   cut [?]
+   cut   color AveragePrice SumCarat
+   <ord> <ord>        <dbl>    <dbl>
+ 1 Fair  D            4291.     150.
+ 2 Fair  E            3682.     192.
+ 3 Fair  F            3827.     282.
+ 4 Fair  G            4239.     321.
+ 5 Fair  H            5136.     369.
+ 6 Fair  I            4685.     210.
+ 7 Fair  J            4976.     160.
+ 8 Good  D            3405.     493.
+ 9 Good  E            3424.     695.
+10 Good  F            3496.     705.
+# ... with 25 more rows
+\end{lstlisting}
+
+Обобщението на информацията по колони е полезно само по себе си, но значително повече информация носи, когато обобщението е извършено по групи (Листинг \ref{listing0123}). При групирането може да се задават една или повече колони за групиране, а при обобщаването една или повече агрегатни функции. 
+
+\begin{lstlisting}[caption=Подредба на резултатите, label=listing0124]
+diamonds %>% group_by(cut) %>% summarize(AveragePrice=mean(price), SumCarat=sum(carat)) %>% arrange(desc(SumCarat))
+# A tibble: 5 x 3
+  cut       AveragePrice SumCarat
+  <ord>            <dbl>    <dbl>
+1 Ideal            3458.   15147.
+2 Premium          4584.   12301.
+3 Very Good        3982.    9743.
+4 Good             3929.    4166.
+5 Fair             4359.    1684.
+\end{lstlisting}
+
+Подредбата на резултатите, след групиране и обобщение, се постига чрез функцията arrange (Листинг \ref{listing0124}). Ако бъде използвана функцията desc, то сортирането е в низсходящ ред, ако не бъде използвана, по подразбиране, сортирането е във възходящ ред.
+
+\subsection{Специфични изчисления и връзка с база данни}
+
+За по-специфични изчисления, които не са предварително реализирани в пакета dplyr, съществува възможността да използване на функцията do (Листинг \ref{listing0125}).
+
+\begin{lstlisting}[caption=Специфични изчисления, label=listing0125]
+bottom <- function(x, N=5){ x %>% arrange(carat) %>% head(N) }
+ 
+diamonds %>% group_by(cut) %>% do(bottom(., N=3))
+# A tibble: 15 x 10
+# Groups:   cut [5]
+   carat cut       color clarity depth table price     x     y     z
+   <dbl> <ord>     <ord> <ord>   <dbl> <dbl> <int> <dbl> <dbl> <dbl>
+ 1  0.22 Fair      E     VS2      65.1    61   337  3.87  3.78  2.49
+ 2  0.23 Fair      G     VVS2     61.4    66   369  3.87  3.91  2.39
+ 3  0.25 Fair      D     VS1      61.2    55   563  4.09  4.11  2.51
+ 4  0.23 Good      E     VS1      56.9    65   327  4.05  4.07  2.31
+ 5  0.23 Good      F     VS1      58.2    59   402  4.06  4.08  2.37
+ 6  0.23 Good      E     VS1      64.1    59   402  3.83  3.85  2.46
+ 7  0.2  Very Good E     VS2      63.4    59   367  3.74  3.71  2.36
+ 8  0.21 Very Good E     VS2      63.2    54   386  3.82  3.78  2.4 
+ 9  0.23 Very Good H     VS1      59.4    61   338  4     4.05  2.39
+10  0.2  Premium   E     SI2      60.2    62   345  3.79  3.75  2.27
+11  0.2  Premium   E     VS2      59.8    62   367  3.79  3.77  2.26
+12  0.2  Premium   E     VS2      59      60   367  3.81  3.78  2.24
+13  0.2  Ideal     E     VS2      59.7    55   367  3.86  3.84  2.3 
+14  0.2  Ideal     D     VS2      61.5    57   367  3.81  3.77  2.33
+15  0.2  Ideal     E     VS2      62.2    57   367  3.76  3.73  2.33
+\end{lstlisting}
+
+Функцията позволява да се изпълняват потребителски функции върху данните. Чрез комбинацията на do и groupю\_by се връщат най-долните N реда, сортирани по карати, за всяко подмножество от вид срязване на диамантите. 
+
+При използването на поточни операции, левият операнд на потока се явява първи аргумент на функцията от дясно. Тъй като в примера (Листинг \ref{listing0125}) от лявата страна на потока са данни, а не функция, то чрез операцията точка (.) се оказва мястото на което данните трябва да бъдат използвани.
+
+Голямо предимство на пакета dplyr е възможността му да обработва данни от база данни по начин много подобен на работата с data.frame обекти. Пакетът работи с повечето популярни системи за управление на бази от данни, като PostgreSQL, MySQL, SQLite и други. Трябва да се има предвид, че операциите за работа са база данни са относително бавни и бързодействието на пакета е значително по-малко в сравнение с бързодействието постигано при data.fram обектите. Положителното на директната работа са база данни е, че при много големи обеми от данни би било неприемливо те да се зареждат в оперативната памет (или дори невъзможно). 
+
+\begin{lstlisting}[caption=Работа с база данни, label=listing0126]
+setwd( "~/Desktop" )
+
+download.file("https://github.com/TodorBalabanov/Statistical-Data-Processing-with-R/blob/master/data/diamonds.db?raw=true", destfile="./diamonds.db", mode="wb")
+
+source <- src_sqlite("diamonds.db")
+source
+src:  sqlite 3.22.0 [/Users/todorbalabanov/Desktop/diamonds.db]
+tbls: DiamondColors, diamonds, sqlite_stat1
+
+table <- tbl(source, "diamonds")
+table %>% head(3)
+# Source:   lazy query [?? x 10]
+# Database: sqlite 3.22.0 [/Users/todorbalabanov/Desktop/diamonds.db]
+  carat cut     color clarity depth table price     x     y     z
+  <dbl> <chr>   <chr> <chr>   <dbl> <dbl> <int> <dbl> <dbl> <dbl>
+1  0.23 Ideal   E     SI2      61.5    55   326  3.95  3.98  2.43
+2  0.21 Premium E     SI1      59.8    61   326  3.89  3.84  2.31
+3  0.23 Good    E     VS1      56.9    65   327  4.05  4.07  2.31
+\end{lstlisting}
+
+За да се илюстрира работата с бази данни, SQLite е изключително удобна възможност. За да може пакетът dplyr да работи е необходимо да бъде инсталиран и пакетът dbplyr, дори и да не е зареден в пеметта. Като начало, определя се работната директория в която ще се помести файла съдържащ базата данни (Листинг \ref{listing0126}). Следва команда за изтеглянето на самия файл. Към изтегления файл се насочва променлива, която ще бъде използвана като източник на данните. След установяване връзка към базата е необходимо да се насочи променлива и към конкретна таблица. Макар и данните да изглеждат като data.frame, то те са таблица в база данни и повечето dplyr операции се извършват директно върху данните в базата данни.
+
+\begin{lstlisting}[caption=Пресмятания с данни в база данни, label=listing0127]
+table %>% group_by(cut) %>% dplyr::summarize(AveragePrice=mean(price),AverageCarat=mean(carat))
+# Source:   lazy query [?? x 3]
+# Database: sqlite 3.22.0 [/Users/todorbalabanov/Desktop/diamonds.db]
+  cut       AveragePrice AverageCarat
+  <chr>            <dbl>        <dbl>
+1 Fair             4359.        1.05 
+2 Good             3929.        0.849
+3 Ideal            3458.        0.703
+4 Premium          4584.        0.892
+5 Very Good        3982.        0.806
+Warning messages:
+1: Missing values are always removed in SQL.
+Use `AVG(x, na.rm = TRUE)` to silence this warning 
+2: Missing values are always removed in SQL.
+Use `AVG(x, na.rm = TRUE)` to silence this warning
+\end{lstlisting}
+
+Важно е да се има предвид, че липсващите данни винаги се игнорират при работа с SQL данни (Листинг \ref{listing0127}).
+
+\section{Пакетът purrr}
 
 \section*{Заключение}
 
