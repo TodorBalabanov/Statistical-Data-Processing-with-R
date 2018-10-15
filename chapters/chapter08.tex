@@ -1,4 +1,4 @@
-\newpage
+﻿\newpage
 \chapter{Разширени графични възможности и вероятностни разпределения}
 \label{chapter08}
 
@@ -167,6 +167,93 @@ ggplot(diamonds, aes(y=depth, x=cut))+ geom_point() + geom_violin()
 \FloatBarrier
 
 Декорациите за визуализация на данните може да се наслагват една върху друга, като от съществено значение е редът на изчертаването им (Фиг. \ref{figure0040}). Ако декорацията с точките бъде добавена след декорацията с цигулките, точки ще се появят и върху самите цигулки. 
+
+\subsection{Линейни графики}
+
+В определени случаи най-удачно е визуалното представяне на информацията да бъде извършено с линейни графики. Линейната графика е удачна примерно при представянето на тренд (Листинг \ref{listing0154}).
+
+\begin{lstlisting}[caption=Линейни графики, label=listing0154]
+library(lubridate)
+
+ggplot(economics, aes(x=date, y=pop)) + geom_line()
+
+economics$year <- year(economics$date)
+economics$month <- month(economics$date, label=TRUE)
+
+library(scales)
+
+ggplot(economics, aes(x=month, y=pop)) + geom_line(aes(color=factor(year), group=year)) + scale_color_discrete(name="Year") + scale_y_continuous(labels=comma)+ labs(title="Population Growth", x="Month", y="Population")
+\end{lstlisting}
+
+В примерните данни за икономическо развитие, нарастването на популацията във времето е представена под формата на линейна графика (Фиг. \ref{figure0041}).
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1.0\linewidth]{pic0041}
+  \caption{Нарастване на популацията във времето}
+\label{figure0041}
+\end{figure}
+\FloatBarrier
+
+При анализирането на ръст в популацията понякога е интересно тази информация да се организира по години и да се представи в обща графика. Данните за всяка година могат да се представят с различен цвят, така че да бъде ясно кои линии за кои периоди от време се отнасят. С помощта на библиотеката lubridate в economics данните се добавят две допълнителни колони за година и за месец. С помощта на библиотеката scales се постига по-добро оформление на информацията по осите. 
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1.0\linewidth]{pic0042}
+  \caption{Визуализиране на приръста по години}
+\label{figure0042}
+\end{figure}
+\FloatBarrier
+
+Важно е да се отбележи, че информацията за годината е от тип factor, така че да се използва за определяне на цветовете. Също така на ординатната ос се добавя и запетая, като разделител за хилядите. Като последна декорация е подмяната на текстовете за двете оси. 
+
+\subsection{Тематично оформление}
+
+При генерирането на графики е от съществено значение медията на която тези графики ще бъдат представяни. При визуализация на проектор или монитор може да се използват тематично тъмни цветове, а при разпечатване на хартия е по-разумно да се използват светли цветове, така че да се намалява разхода на мастило (Листинг \ref{listing0155}). Каквито и да са нуждите за представяне, в пакетът ggthemes са добавени възможности за цялостно преобразяване на получените графики, чрез избор на теми (Фиг. \ref{figure0043}-\ref{figure0046}).
+
+\begin{lstlisting}[caption=Избор на теми за визуално представяне, label=listing0155]
+library(ggthemes)
+
+ggplot(diamonds, aes(x=carat, y=price)) + geom_point(aes(color=color)) + theme_wsj()
+
+ggplot(diamonds, aes(x=carat, y=price)) + geom_point(aes(color=color)) + theme_tufte()
+
+ggplot(diamonds, aes(x=carat, y=price)) + geom_point(aes(color=color)) + theme_excel()
+
+ggplot(diamonds, aes(x=carat, y=price)) + geom_point(aes(color=color)) +  theme_economist() + scale_colour_economist()
+\end{lstlisting}
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1.0\linewidth]{pic0043}
+  \caption{Тема Wall Street Journal}
+\label{figure0043}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1.0\linewidth]{pic0044}
+  \caption{Тема Edward Tufte}
+\label{figure0044}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1.0\linewidth]{pic0045}
+  \caption{Тема в стил Microsoft Excel}
+\label{figure0045}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1.0\linewidth]{pic0046}
+  \caption{Тема Economist}
+\label{figure0046}
+\end{figure}
+\FloatBarrier
 
 \section*{Заключение}
 
