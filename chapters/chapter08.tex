@@ -255,5 +255,80 @@ ggplot(diamonds, aes(x=carat, y=price)) + geom_point(aes(color=color)) +  theme_
 \end{figure}
 \FloatBarrier
 
+\section{Изследване на случайни величини}
+
+Когато се работи с данни за които няма предварителна информация е от съществено значение да се определи какви са параметрите на вероятностното разпределение. С помощта на пакета Rdice е възможно да се генерират експерименти с различни зарове. Чрез генерирането и статистическото изследване на множество случайни събития се осъществява изследване наречено „Монте Карло метод“.
+
+\begin{lstlisting}[caption=Случайни величини със зарове, label=listing0156]
+library(ggplot2)
+library(Rdice)
+
+x <- dice.roll(faces=6, dice=1, rolls=100000)
+
+ggplot(data=x$results) + geom_histogram(aes(x=values)) + ggtitle("Single die rolled 100K times.") + xlab("Die Side") + ylab("Outcomes") + scale_x_continuous(breaks=round(seq(min(x$results$values),max(x$results$values),by=0.5)))
+
+x <- dice.roll(faces=6, dice=2, rolls=100000)
+
+ggplot(data=x$results) + geom_histogram(aes(x=(die_1+die_2))) + ggtitle("Two dice rolled 100K times.") + xlab("Dice Sides") + ylab("Outcomes") + scale_x_continuous(breaks=round(seq(min((x$results$die_1+x$results$die_2)),max((x$results$die_1+x$results$die_2)),by=0.5)))
+
+x <- dice.roll(faces=6, dice=6, rolls=100000)
+x$results$values = rowSums( x$results[,1:6] )
+
+ggplot(data=x$results) + geom_histogram(aes(x=values)) + ggtitle("Six dice rolled 100K times.") + xlab("Dice Sides") + ylab("Outcomes") + scale_x_continuous(breaks=round(seq(min(x$results$values),max(x$results$values),by=0.5)))
+
+x <- dice.roll(faces=6, dice=10, rolls=100000)
+x$results$values = rowSums( x$results[,1:10] )
+
+ggplot(data=x$results) + geom_density(aes(x=values)) + ggtitle("Ten dice rolled 100K times.") + xlab("Dice Sides") + ylab("Outcomes") + scale_x_continuous(breaks=round(seq(min(x$results$values),max(x$results$values),by=0.5)))
+\end{lstlisting}
+
+Ако се приеме, че променливата x е резултатът от многократното хвърляне на един математически честен зар, със шест страни, то чрез изчертаване на хистограмата може да се добие представа за характера на случайната величина (Листинг \ref{listing0156}). От изчертаната хистограма ясно се вижда, че случайната величина е дискретна и равномерно разпределена (Фиг. \ref{figure0047}).
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1.0\linewidth]{pic0047}
+  \caption{Хистограма на хвърлянията за един зар}
+\label{figure0047}
+\end{figure}
+\FloatBarrier
+
+Когато същият експеримент бъде повторен, но вместо един зар се използват два зара, ясно се различава, че някои събития стават по-малко вероятни от други и разпределението се превръща в триъгълно (Фиг. \ref{figure0048}).
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1.0\linewidth]{pic0048}
+  \caption{Хистограма на хвърлянията за два зара}
+\label{figure0048}
+\end{figure}
+\FloatBarrier
+
+При шест зара ясно започва да се различава формата на нормалното разпределение (Фиг. \ref{figure0049}).
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1.0\linewidth]{pic0049}
+  \caption{Хистограма на хвърлянията за шест зара}
+\label{figure0049}
+\end{figure}
+\FloatBarrier
+
+При десет зара и изчертаване на плътностна диаграма формата на нормалното вероятностно разпределение е ясно забележима (Фиг. \ref{figure0050}).
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1.0\linewidth]{pic0050}
+  \caption{Плътностна диаграма на хвърлянията за десет зара}
+\label{figure0050}
+\end{figure}
+\FloatBarrier
+
+За изследването на една случайна величина, хистограмата и плътностната диаграма носят първоначална ориентировъчна информация за характеристиките на величината.
+
+\section{Вероятностни разпределения}
+
+В реалната практика от статистическия анализ се наблюдават множество случайни величини, които винаги се подчиняват на някакво вероятностно разпределение. Определянето на вероятностното разпределение, към което принадлежи случайната величина има изключително важна роля в адекватното и надеждно извършване на статистическия анализ. След определяне на вероятностното разпределение от съществена важност е и определянето на параметрите, които характеризират разпределението.  
+
 \section*{Заключение}
 
+Визуалното представяне на числените данни повишава степента за възприемане на представяната информация. Колкото по-големи са възможностите на пакетите за визуално представяне, толкова повече възможности биха имали хората работещи с информация и нейното представяне пред широка аудитория. При анализа на случайни величини, визуализацията с хистограма и плътностна функция може да даде най-груба първоначална представа за параметрите на случайната величина. Информация, която може да бъде изключително полезна при избора на по-сложни методи за статистически анализ. От своя страна, визуализацията на случайностите най-удачно се представя, чрез някои от най-използваните вероятностни разпределения. 
+ 
