@@ -408,12 +408,12 @@ pdf(x) = \binom{n}{x}p^{x}(1-p)^{n-x}
 \begin{lstlisting}[caption=Биномно разпределение, label=listing0158]
 library(ggplot2)
 
-values <- rbinom(n=30000, size=5, prob=0.35)
-density <- dbinom(values, size=5, prob=0.35)
-cumulative <- pbinom(values, size=5, prob=0.35)
-quantile <- qbinom(cumulative, size=5, prob=0.35)
+values <- rbinom(n=10000, size=7, prob=0.35)
+density <- dbinom(x=2, size=7, prob=0.35)
+cumulative <- pbinom(q=2, size=7, prob=0.35)
+quantile <- qbinom(p=0.15, size=7, prob=0.35)
 
-ggplot(data.frame(x=values, y=density)) + aes(x=x, y=y) + geom_line() + labs(x="Binomial Distributed Random Values ", y="Density")
+ggplot(data.frame(x=values, y=density)) + aes(x=x) + geom_histogram() + labs(x="Binomial Distributed Random Values ", y="Density")
 
 ggplot(data.frame(x=values, y=cumulative)) + aes(x=x, y=y) + geom_line() + labs(x=" Binomial Distributed Random Values ", y="Cumulative Probability")
 
