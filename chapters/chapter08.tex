@@ -4,7 +4,7 @@
 
 \section{Разширени графични възможности}
 
-Към базовите графични възможности на R, пакетите ggplot2 и lattice добавят множество допълнителни възможности. Синтаксисът на извикванията леко се различава от този на функциите в базовите възможности, но това създава затруднения само в началния етап от употребата на двата пакета. 
+Към базовите графични възможности на R, пакетите ggplot2 и lattice добавят множество допълнителни функционалности. Синтаксисът на извикванията леко се различава от този на функциите в базовите възможности, но това създава затруднения само в началния етап от употребата на двата пакета. 
 
 За визуализация, чрез ggplot2 като основа се използва функцията ggplot. В общия случай тази функция получава, като входен параметър данните за визуализиране и понякога някои допълнителни параметри. Резултатът от изпълнението на ggplot е обект, който в последствие може да бъде допълнително променян, чрез добавяне на възможности с помощта на операцията събиране (+). 
 
@@ -355,7 +355,7 @@ ggplot(data.frame(x=values, y=cumulative)) + aes(x=x, y=y) + geom_line() + labs(
 ggplot(data.frame(x=values, y=quantile)) + aes(x=x, y=y) + geom_line() + labs(x="Normally Distributed Random Values ", y="Quantile")
 \end{lstlisting}
 
-В езика R генерирането на случайни числа става чрез функцията rnorm, която получава параметър за брой числа, средна стойност и стандартно отклонение. Подразбиращата се средна стойност е нула, а подразбиращото се стандартно отклонение е единица. Вероятността дадена стойност да бъде генериране се изчислява с функцията dnorm, която е полезна при изчертаването на плътностната функция (Фиг. \ref{figure0051}).
+В езика R генерирането на нормално разпределени случайни числа става чрез функцията rnorm, която получава параметър за брой числа, средна стойност и стандартно отклонение. Подразбиращата се средна стойност е нула, а подразбиращото се стандартно отклонение е единица. Вероятността дадена стойност да бъде генериране се изчислява с функцията dnorm, която е полезна при изчертаването на плътностната функция (Фиг. \ref{figure0051}).
 
 \begin{figure}[h!]
   \centering
@@ -368,7 +368,7 @@ ggplot(data.frame(x=values, y=quantile)) + aes(x=x, y=y) + geom_line() + labs(x=
 От плътностната функция, чрез интегриране, се получава комулативната функция на разпределението (Формула \ref{equation0003}).
 
 \begin{equation}
-cdf({x}, {a}) = \int_{-\infty}^{a} \frac{1}{{\sigma \sqrt {2\pi } }}e^{{{ - \left( {x - \mu } \right)^2 } \mathord{\left/ {\vphantom {{ - \left( {x - \mu } \right)^2 } {2\sigma ^2 }}} \right. \kern-\nulldelimiterspace} {2\sigma ^2 }}} dx
+cdf(x) = \int_{-\infty}^{a} \frac{1}{{\sigma \sqrt {2\pi } }}e^{{{ - \left( {x - \mu } \right)^2 } \mathord{\left/ {\vphantom {{ - \left( {x - \mu } \right)^2 } {2\sigma ^2 }}} \right. \kern-\nulldelimiterspace} {2\sigma ^2 }}} dx
 \label{equation0003}
 \end{equation}
 \listofequations{Комулативна функция на нормално разпределение}
@@ -377,17 +377,50 @@ cdf({x}, {a}) = \int_{-\infty}^{a} \frac{1}{{\sigma \sqrt {2\pi } }}e^{{{ - \lef
 
 \begin{figure}[h!]
   \centering
-  \includegraphics[width=1.0\linewidth]{pic0051}
+  \includegraphics[width=1.0\linewidth]{pic0052}
   \caption{Комулативна функция на нормално разпределение}
-\label{figure0051}
+\label{figure0052}
 \end{figure}
 \FloatBarrier
 
-Обратната функция на pnorm е qnorm и тя изчислява квантила според, ако е известна комулативната вероятност.
+Обратната функция на pnorm е qnorm и тя изчислява квантила, ако е известна комулативната вероятност.
 
 \subsection{Биномно разпределение}
 
+Биномното разпределение (Формула \ref{equation0004}) е добре представено в R с помощта на серия функции по аналогия с функциите за нормално разпределение. 
 
+\begin{equation}
+pdf(x) = \binom{n}{x}p^{x}(1-p)^{n-x}
+\label{equation0004}
+\end{equation}
+\listofequations{Вероятностна функция на биномно разпределение разпределение}
+
+Където първият множител е биномен коефициент изчисляван по Формула \ref{equation0005}.
+
+\begin{equation}
+\binom{n}{x} = \frac{n!}{x!(n-x)!}
+\label{equation0005}
+\end{equation}
+\listofequations{Биномен коефициент}
+
+Параметърът n определя броя опити, а параметърът p задава вероятността за успех при единичен опит. Средната на биномното разпределение е np, а вариацията np(1-p). Когато параметърът n има стойност единица биномното разпределение се трансформира в бернулиево разпределение. 
+
+\begin{lstlisting}[caption=Биномно разпределение, label=listing0158]
+library(ggplot2)
+
+values <- rbinom(n=30000, size=5, prob=0.35)
+density <- dbinom(values, size=5, prob=0.35)
+cumulative <- pbinom(values, size=5, prob=0.35)
+quantile <- qbinom(cumulative, size=5, prob=0.35)
+
+ggplot(data.frame(x=values, y=density)) + aes(x=x, y=y) + geom_line() + labs(x="Binomial Distributed Random Values ", y="Density")
+
+ggplot(data.frame(x=values, y=cumulative)) + aes(x=x, y=y) + geom_line() + labs(x=" Binomial Distributed Random Values ", y="Cumulative Probability")
+
+ggplot(data.frame(x=values, y=quantile)) + aes(x=x, y=y) + geom_line() + labs(x=" Binomial Distributed Random Values ", y="Quantile")
+\end{lstlisting}
+
+При биномното разпределение не просто се генерират случайни числа, а се генерират броя на успешните независими бернулиеви експеримента. В езика R за да се генерират биномно разпределени нормални числа се използва функцията rbinom.
 
 \section*{Заключение}
 
