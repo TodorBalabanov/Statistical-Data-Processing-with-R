@@ -393,7 +393,7 @@ cdf(x) = \int_{-\infty}^{a} \frac{1}{{\sigma \sqrt {2\pi } }}e^{{{ - \left( {x -
 pdf(x) = \binom{n}{x}p^{x}(1-p)^{n-x}
 \label{equation0004}
 \end{equation}
-\listofequations{Вероятностна функция на биномно разпределение разпределение}
+\listofequations{Вероятностна функция на биномно разпределение}
 
 Където първият множител е биномен коефициент изчисляван по Формула \ref{equation0005}.
 
@@ -413,14 +413,49 @@ density <- dbinom(x=2, size=7, prob=0.35)
 cumulative <- pbinom(q=2, size=7, prob=0.35)
 quantile <- qbinom(p=0.15, size=7, prob=0.35)
 
-ggplot(data.frame(x=values, y=density)) + aes(x=x) + geom_histogram() + labs(x="Binomial Distributed Random Values ", y="Density")
+ggplot(data.frame(x=values)) + aes(x=x) + geom_histogram() + labs(x="Binomial Distributed Random Values ", y="Count")
 
-ggplot(data.frame(x=values, y=cumulative)) + aes(x=x, y=y) + geom_line() + labs(x=" Binomial Distributed Random Values ", y="Cumulative Probability")
-
-ggplot(data.frame(x=values, y=quantile)) + aes(x=x, y=y) + geom_line() + labs(x=" Binomial Distributed Random Values ", y="Quantile")
+density
+cumulative
+quantile
 \end{lstlisting}
 
-При биномното разпределение не просто се генерират случайни числа, а се генерират броя на успешните независими бернулиеви експеримента. В езика R за да се генерират биномно разпределени нормални числа се използва функцията rbinom.
+При биномното разпределение не просто се генерират случайни числа, а се генерират броя на успешните независими бернулиеви експеримента. В езика R за да се генерират биномно разпределени нормални числа се използва функцията rbinom (Листинг \ref{listing0158}). Биномното разпределение е дискретно вероятностно разпределени, тъй като отразява определен брой успешни изходи от експеримент с предварително зададена вероятност за успех. Поради тази причина визуализацията става с помощта на хистограма (Фиг. \ref{figure0053}).
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1.0\linewidth]{pic0053}
+  \caption{Хистограма на биномно разпределение}
+\label{figure0053}
+\end{figure}
+\FloatBarrier
+
+Освен броя случайни числа които трябва да се генерират към функцията rbinom се подава параметър за броя експерименти и параметър за вероятността на успех при единичен експеримент. При значително увеличаване на броя експерименти биномното разпределение започва да клони към нормално разпределение. 
+
+\begin{equation}
+cdf(x) = \sum_{i=0}^{a}\binom{n}{i}p^{i}(1-p)^{n-i}
+\label{equation0006}
+\end{equation}
+\listofequations{Кумулативна функция на биномно разпределение}
+
+С функцията dbinom може да се провери плътността за определена стойност (Формула \ref{equation0006}), а с pbinom кумулативната стойност. И двете функции могат да се използват с вектор от стойности. 
+
+\subsection{Поасоново разпределение}
+
+Популярно в практиката е също и разпределението на Поасон. То има само един параметър $\lambda$, който отразява едновременно средната стойност и дисперсията. 
+
+\begin{equation}
+pdf(x) = \frac{\lambda^{x}e^{-\lambda}}{x!}
+\label{equation0007}
+\end{equation}
+\listofequations{Вероятностна функция на поасоново разпределение}
+
+\begin{equation}
+cdf(x) = \sum_{i=0}^{a}\frac{\lambda^{i}e^{-\lambda}}{i!}
+\label{equation0008}
+\end{equation}
+\listofequations{Кумулативна функция на поасоново разпределение}
+
 
 \section*{Заключение}
 
