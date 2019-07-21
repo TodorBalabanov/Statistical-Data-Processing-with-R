@@ -442,7 +442,7 @@ cdf(x) = \sum_{i=0}^{a}\binom{n}{i}p^{i}(1-p)^{n-i}
 
 \subsection{Поасоново разпределение}
 
-Популярно в практиката е също и разпределението на Поасон. То има само един параметър $\lambda$, който отразява едновременно средната стойност и дисперсията. 
+Популярно в практиката е също и разпределението на Поасон. То има само един параметър $\lambda$, който отразява едновременно средната стойност и дисперсията (Формула \ref{equation0007}). 
 
 \begin{equation}
 pdf(x) = \frac{\lambda^{x}e^{-\lambda}}{x!}
@@ -450,12 +450,54 @@ pdf(x) = \frac{\lambda^{x}e^{-\lambda}}{x!}
 \end{equation}
 \listofequations{Вероятностна функция на поасоново разпределение}
 
+Разпределението е дискретно и намира приложение при случайни променливи, които отразяват случването на брой случайни събития в зададен интервал от време. 
+
 \begin{equation}
 cdf(x) = \sum_{i=0}^{a}\frac{\lambda^{i}e^{-\lambda}}{i!}
 \label{equation0008}
 \end{equation}
 \listofequations{Кумулативна функция на поасоново разпределение}
 
+Както и при повечето други вероятностни разпределения, това също започва да клони към нормалното разпределени когато параметърът $\lambda$ нарасне до големи стойности. 
+
+\begin{lstlisting}[caption=Разпределение на Поасон, label=listing0159]
+library(ggplot2)
+
+values <- rpois(n=1000, lambda=0.8)
+density <- dpois(x=2, lambda=0.8)
+cumulative <- ppois(q=2, lambda=0.8)
+quantile <- qpois(p=0.75, lambda=0.8)
+
+ggplot(data.frame(x=values)) + aes(x=x) + geom_histogram() + labs(x="Poisson Distributed Random Values ", y="Count")
+
+density
+cumulative
+quantile
+\end{lstlisting}
+
+Визуализацията на поасоновото разпределение става с помощта на хистограма (Фиг. \ref{figure0054}).
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1.0\linewidth]{pic0054}
+  \caption{Хистограма на поасоново разпределение}
+\label{figure0054}
+\end{figure}
+\FloatBarrier
+
+С функцията dpois може да се провери плътността за определена стойност (Формула \ref{equation0008}), а с ppois кумулативната стойност. И двете функции могат да се използват с вектор от стойности. 
+
+\subsection{Други разпределения}
+
+Пакетът R предлага богат набор от вероятностни разпределения (Фиг. \ref{figure0055}). Една част от тези разпределения са широко използвани, други не чак толкова.
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1.0\linewidth]{pic0055}
+  \caption{Списък с най-използваните вероятностни разпределения}
+\label{figure0055}
+\end{figure}
+\FloatBarrier
 
 \section*{Заключение}
 
