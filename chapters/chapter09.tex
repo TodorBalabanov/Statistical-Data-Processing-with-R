@@ -147,6 +147,14 @@ v_{xy} = \frac{1}{n-1}\sum_{i=1}^{n}(x_i-\bar{x})(y_i-\bar{y})
 library(reshape2)
 
 head(tips)
+
+#   total_bill  tip    sex smoker day   time size
+# 1      16.99 1.01 Female     No Sun Dinner    2
+# 2      10.34 1.66   Male     No Sun Dinner    3
+# 3      21.01 3.50   Male     No Sun Dinner    3
+# 4      23.68 3.31   Male     No Sun Dinner    2
+# 5      24.59 3.61 Female     No Sun Dinner    4
+# 6      25.29 4.71   Male     No Sun Dinner    4
 \end{lstlisting}
 
 За илюстриране на възможностите, които R предлага при пресмятането на t-теста е подходящо да се използва множеството данни за бакшиши (Листинг \ref{listing0167}).
@@ -203,5 +211,91 @@ t <- t.test(tips$tip, alternative="two.sided", mu=3.50)
 ggplot(data.frame(x=values)) + geom_density(aes(x=x), fill="grey", color="grey") + geom_vline(xintercept=t$statistic) + geom_vline(xintercept=mean(values) + c(-2, 2) * sd(values), linetype=2)
 \end{lstlisting}
 
+Изисква определено усилие за правилно интерпретиране на $p$-стойността. По своята същност тази стойност отразява вероятността нулевата хипотеза да е вярна. На практика измерва колко екстремна е измерената статистика (в този случай средната стойност). Ако статистиката е твърде екстремна трябва да се направи заключение, че нулевата хипотеза трябва да бъде отхвърлена. Основното усложнение с $p$-стойността е как да се определи кое ниво трябва да се възприеме като твърде екстремно. В практиката (емпирично) са наложени следните стойности за екстремност на $p$-стойността - 0.10, 0.05 и 0.01. Поради емпиричния характер за определяне на тези стойност по настояще възникват въпроси до колко те са адекватни, спрямо съвременните тенденции в обработката на статистически данни. 
+
+Степените на свобода са втората сложна за възприемане концепция. По своята същност степените на свобода отразяват броя ефективни наблюдения в конкретен експеримент. Общата концепция за степените на свобода е броят на наблюденията минус броят параметри, които трябва да се определят. В случая на $t$-разпределението само един параметър трябва да се определи (стандартната грешка). В демонстрирания пример (Листинг \ref{listing0169}) има 244 наблюдения и съответно 244-1 = 243 степени на свобода. 
+
+\begin{lstlisting}[caption=Едностранна t-статистика, label=listing0170]
+t.test(tips$tip, alternative="less", mu=3.50)
+
+# 	One Sample t-test
+# 
+# data:  tips$tip
+# t = -5.6642, df = 243, p-value = 2.08e-08
+# alternative hypothesis: true mean is less than 3.5
+# 95 percent confidence interval:
+#      -Inf 3.144535
+# sample estimates:
+# mean of x 
+#  2.998279 
+\end{lstlisting}
+
+Нулевата хипотеза може да се анализира спрямо двете страни на вероятностното разпределение или да се разглежда само една от страните (по-малко или по-голямо). В този случай (Листинг \ref{listing0170}) $p$-стойността показва, че не можем да отхвърлим нулевата хипотеза. 
+
+\subsubsection{Тест на две извадки}
+
+Тестът на Стюдънт много по-често се прилага върху две извадки. В тестовото множество от данни за бакшишите отделните измервания могат да се разделят по различни признаци в две групи (примерно бакшиши на мъжете и бакшиши на жените Фиг. \ref{figure0057}).
+
+\begin{lstlisting}[caption=Сравнение на две извадки, label=listing0171]
+ggplot(tips, aes(x=tip, fill=sex)) + geom_histogram(binwidth=1.0, alpha=0.8)
+
+# Compute the variance for the two groups.
+aggregate(tip ~ sex, data=tips, var)
+
+# Test for normality.
+shapiro.test(tips$tip[tips$sex == "Female"])
+shapiro.test(tips$tip[tips$sex == "Male"])
+shapiro.test( tips$tip )
+
+# 	Shapiro-Wilk normality test
+# 
+# data:  tips$tip
+# W = 0.89781, p-value = 8.2e-12
+
+# Examine the equality of variances.
+ansari.test(tip ~ sex, tips)
+
+# 	Ansari-Bradley test
+# 
+# data:  tip by sex
+# AB = 5582.5, p-value = 0.376
+# alternative hypothesis: true ratio of scales is not equal to 1
+
+t.test(tip~sex, data=tips, var.equal=TRUE)
+
+# 	Two Sample t-test
+# 
+# data:  tip by sex
+# t = -1.3879, df = 242, p-value = 0.1665
+# alternative hypothesis: true difference in means is not equal to 0
+# 95 percent confidence interval:
+#  -0.6197558  0.1074167
+# sample estimates:
+# mean in group Female   mean in group Male 
+#             2.833448             3.089618
+
+library(plyr)
+
+# Checking of the means in two standard deviations range.
+ddply(tips, "sex", summarize, tip.mean=mean(tip), tip.sd=sd(tip), Lower=tip.mean-2*tip.sd/sqrt(NROW(tip)), Upper=tip.mean+2*tip.sd/sqrt(NROW(tip))) 
+
+#      sex tip.mean   tip.sd    Lower    Upper
+# 1 Female 2.833448 1.159495 2.584827 3.082070
+# 2   Male 3.089618 1.489102 2.851931 3.327304
+
+ggplot(ddply(tips, "sex", summarize, tip.mean=mean(tip), tip.sd=sd(tip), Lower=tip.mean-2*tip.sd/sqrt(NROW(tip)), Upper=tip.mean+2*tip.sd/sqrt(NROW(tip))), aes(x=tip.mean, y=sex)) + geom_point() + geom_errorbarh(aes(xmin=Lower, xmax=Upper), height=.2)
+\end{lstlisting}
+
+За да бъде надежден традиционният $t$-тест от съществено значение е дисперсията на двете извадки да бъде идентична. В ситуации където дисперсиите не са идентични се използва $t$-тест на Welch за две извадки. 
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1.0\linewidth]{pic0057}
+  \caption{Разпределение на бакшишите според пола на сервитьора}
+\label{figure0057}
+\end{figure}
+\FloatBarrier
+
+На Фиг. \ref{figure0057} и при теста на Shapiro-Wilk (Листинг \ref{listing0171}) ясно се вижда, че двете извадки не са нормално разпределени. Тъй като данните очевидно не са нормално разпределени за проверката на идентичността на дисперсиите се прилага тест на Ansari-Bradley. Резултатът показва, че дисперсиите са достатъчно сходни и може да се приложи $t$-тест. От получения резултат (Листинг \ref{listing0171}) не може да се заключи, че нивото на бакшишите между мъжете и жените се различава достатъчно съществено. 
 
 
