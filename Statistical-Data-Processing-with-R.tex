@@ -16,7 +16,7 @@
 % Използва се за включване на кориците под формата на PDF файлове.
 \usepackage{pdfpages}
 % Служи за управление на заглавията.
-\usepackage{fancyheadings}
+\usepackage{fancyhdr}
 \usepackage{listings}
 % Служи за списък на формулите.
 \usepackage{tocloft}
@@ -51,17 +51,16 @@
 \parindent=20pt
 \flushbottom
 
-% Премахва подчертаващата линия в заглавните части.
-\renewcommand{\headrulewidth}{0pt}
+% Добавя черти под хедъра и над футъра.
 
 \selectlanguage{bulgarian}
 
+% Оформление на хедъра и футъра.
 \lhead[\thepage \quad Тодор Балабанов, Зорница Атанасова, Румен Кетипов \quad \hfill]{}
-\chead{}
 \rhead[]{\hfill Статистическа обработка на данни с R \quad \thepage }
-\lfoot{}
 \cfoot[\em Лекции по компютърни науки и технологии на ИИКТ - БАН, № *, 20**]{\em Лекции по компютърни науки и технологии на ИИКТ - БАН, № *, 20**} 
-\rfoot{}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{1pt}
 
 \onecolumn
 \makeindex[columns=2, title=Азбучен указател, intoc]
@@ -136,17 +135,18 @@
 \listoftables
 \addcontentsline{toc}{chapter}{Списък на таблиците}
 
-%\include{chapters/introduction}
-%\include{chapters/chapter01}
-%\include{chapters/chapter02}
-%\include{chapters/chapter03}
-%\include{chapters/chapter04}
-%\include{chapters/chapter05}
-%\include{chapters/chapter06}
-%\include{chapters/chapter07}
-%\include{chapters/chapter08}
+\pagestyle{fancy}
+\include{chapters/introduction}
+\include{chapters/chapter01}
+\include{chapters/chapter02}
+\include{chapters/chapter03}
+\include{chapters/chapter04}
+\include{chapters/chapter05}
+\include{chapters/chapter06}
+\include{chapters/chapter07}
+\include{chapters/chapter08}
 \include{chapters/chapter09}
-%\include{chapters/conclusion}
+\include{chapters/conclusion}
 
 % Списък с използвана литература и източници на информация.
 \newpage

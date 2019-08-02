@@ -1,6 +1,7 @@
-﻿\newpage
+\newpage
 \chapter{Статистическа обработка на данните}
 \label{chapter09}
+\thispagestyle{empty}
 
 Статистическата обработка на данни се състои основно от два вида статистика – описателна статистика и сравнителна статистика. При описателната статистика се изчисляват определени параметри описващи характеристики на събраните данни, докато при сравнителната статистика се извършва сравнение между някои от описателните параметри на данните. 
 
@@ -297,5 +298,54 @@ ggplot(ddply(tips, "sex", summarize, tip.mean=mean(tip), tip.sd=sd(tip), Lower=t
 \FloatBarrier
 
 На Фиг. \ref{figure0057} и при теста на Shapiro-Wilk (Листинг \ref{listing0171}) ясно се вижда, че двете извадки не са нормално разпределени. Тъй като данните очевидно не са нормално разпределени за проверката на идентичността на дисперсиите се прилага тест на Ansari-Bradley. Резултатът показва, че дисперсиите са достатъчно сходни и може да се приложи $t$-тест. От получения резултат (Листинг \ref{listing0171}) не може да се заключи, че нивото на бакшишите между мъжете и жените се различава достатъчно съществено. 
+
+\subsubsection{Сдвоен тест на две извадки}
+
+В някои ситуации се налага изследването на две извадки, но на сдвоени измервания. Това е ситуация при която всяко отделно измерване се отнася до два взаимно свързани субекта (примерно близнаци третирани с определен медикамент или измерване на бащи и синове). В такива ситуации трябва да се прилага сдвоен тест и това в пакета R се постига чрез флаг $paired=TRUE$ на функцията $t.test$. За илюстриране на работата със сдвоени данни може да се използва тестовото множество от данни за височините на бащите и синовете (Листинг \ref{listing0172}).
+
+\begin{lstlisting}[caption=Т-тест на сдвоени данни, label=listing0172]
+library( UsingR )
+
+head( father.son )
+
+#    fheight  sheight
+# 1 65.04851 59.77827
+# 2 63.25094 63.21404
+# 3 64.95532 63.34242
+# 4 65.75250 62.79238
+# 5 61.13723 64.28113
+# 6 63.02254 64.24221
+
+t.test(father.son$sheight, father.son$fheight, paired=TRUE)
+
+# 	Paired t-test
+# 
+# data:  father.son$sheight and father.son$fheight
+# t = 11.789, df = 1077, p-value < 2.2e-16
+# alternative hypothesis: true difference in means is not equal to 0
+# 95 percent confidence interval:
+#  0.8310296 1.1629160
+# sample estimates:
+# mean of the differences 
+#               0.9969728 
+
+# Visualization of the means.
+ggplot(father.son,aes(x=fheight-sheight))+geom_density()+geom_vline(xintercept=mean(father.son$fheight-father.son$sheight))+geom_vline(xintercept=mean(father.son$fheight-father.son$sheight)+2*c(-1, 1)*sd(father.son$fheight-father.son$sheight)/sqrt(nrow(father.son)),linetype=2)
+\end{lstlisting}
+
+Ръстът на човека е установено, че е нормално разпределена, така че не е нужно да се прави проверка за нормалност и идентичност на дисперсиите на данните преди да се приложи $t$-тестът. 
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=1.0\linewidth]{pic0058}
+  \caption{Визуализация на средните при сдвоения тест}
+\label{figure0058}
+\end{figure}
+\FloatBarrier
+
+При настоящият пример тестът показва, че нулевата хипотеза трябва да бъде отхвърлена и трябва да се приеме, че поне за тази извадка от данни бащите и синовете имат различна височина (Фиг. \ref{figure0058}). 
+
+\subsection{Дисперсионен анализ}
+
 
 
