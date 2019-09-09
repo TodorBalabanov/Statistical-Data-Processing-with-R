@@ -116,4 +116,114 @@ d/n &  & 10 & 50 & 100 & 150 & 200 &  & 10 & 50 & 100 & 150 & 200 &  & 10 & 50 &
 
 Използването на генетични алгоритми става неефективно в ситуации в които целевата функция изисква неприемливо дълго време за пресмятане. Тъй като генетичните алгоритми ползват генерирането на голямо количество междинни решения, множеството пресмятания на целевата функция може да направи цялата оптимизация неприемливо бавна. Важно е също да се знае, че генетичните алгоритми не гарантират намирането на глобалния оптимум, най-вече когато този оптимум не е предварително известен. Генетичните алгоритми не са ефективни при задачи където целевата функция води само до две състояния „добро“ или „лошо“. За да бъде ефективен процесът по оптимизацията решенията в популацията трябва да подлежат на подреждане, спрямо тяхната жизнеспособност. 
 
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|r|r|} 
+  \rowcolor{lightgray}
+  \hline
+  Предмет & Ценност & Тегло \\ [0.1ex] 
+  \hline\hline
+  cake & 10 & 1 \\
+  \hline
+  ice cream & 15 & 10 \\
+  \hline
+  orange juice & 10 & 5 \\
+  \hline
+  strawberries & 30 & 7 \\
+  \hline
+  grape & 30 & 1 \\
+  \hline
+  candies & 20 & 5 \\
+  \hline
+  chocolate & 2 & 1 \\
+  \hline
+\end{tabular}
+\caption{Предмети с определена ценност и тегло}
+\label{table0006}
+\end{table}
+
+\begin{lstlisting}[caption=Оптимизация на задачата за раницата с генетични алгоритми, label=listing0176]
+library(genalg)
+
+data <- data.frame(item = c("cake", "ice cream", "orange juice", "strawberries", "grape", "candies", "chocolate"), survivalpoints = c(10, 15, 10, 30, 30, 20, 2), weight = c(1, 10, 5, 7, 1, 5, 1))
+
+limit <- 20
+
+solution <- c(1, 0, 0, 1, 1, 0, 0)
+
+data[solution==1, ]
+#           item survivalpoints weight
+# 1         cake             10      1
+# 4 strawberries             30      7
+# 5        grape             30      1
+
+cat(solution %*% data$survivalpoints)
+# 70
+
+# Fitness function calculation.
+fitness <- function(x) {
+	points <- x %*% data$survivalpoints
+
+	weight <- x %*% data$weight
+
+	if (weight > limit) {
+		return( 0 )
+	} else {
+		return( -points )
+	}
+}
+
+iterations <- 75
+
+model <- rbga.bin(size=7, popSize=37, iters=iterations, mutationChance=0.01, elitism=TRUE, evalFunc=fitness)
+
+cat( summary(model) )
+# GA Settings
+#   Type                  = binary chromosome
+#   Population size       = 37
+#   Number of Generations = 1000
+#   Elitism               = TRUE
+#   Mutation Chance       = 0.01
+# 
+# Search Domain
+#   Var 1 = [,]
+#   Var 0 = [,]
+# 
+# GA Results
+#   Best Solution : 1 0 1 1 1 1 1 
+
+# Print the best found solution.
+best = c(1, 0, 1, 1, 1, 1, 1)
+data[best == 1, ]
+#           item survivalpoints weight
+# 1         cake             10      1
+# 3 orange juice             10      5
+# 4 strawberries             30      7
+# 5        grape             30      1
+# 6      candies             20      5
+# 7    chocolate              2      1
+
+# Calculate survival points.
+cat(paste(best %*% data$survivalpoints, "/", sum(data$survivalpoints)))
+# 102 / 117
+\end{lstlisting}
+
+\begin{lstlisting}[caption=Анимирана визуализация на процеса по търсене на оптимално решение, label=listing0177]
+library(ggplot2)
+library(animation)
+
+setwd("~/Desktop")
+
+animate <- function(x) {
+	for (i in seq(1, iterations)) {
+		current <- data.frame(Generation = c(seq(1, i), seq(1, i)), Variable = c(rep("mean", i), rep("best", i)), Survivalpoints = c(-model$mean[1:i], -model$best[1:i]))
+
+		graphics <- ggplot(current, aes(x = Generation, y = Survivalpoints, group = Variable, colour = Variable)) + geom_line() + scale_x_continuous(limits = c(0,  iterations)) + scale_y_continuous(limits = c(0, 110)) + geom_hline(yintercept = 0, y = max(current$Survivalpoints), lty = 2) + annotate("text", x = 1, y = max(current$Survivalpoints) + 2, hjust = 0, size = 3, color = "black", label = paste("Best Found Solution:", max(current$Survivalpoints))) + scale_colour_brewer(palette = "Set1") + labs(title = "Evolution Knapsack Optimization Model")
+
+		print( graphics )
+    }
+}
+
+saveGIF(animate(), interval=0.1, outdir=getwd())
+\end{lstlisting}
 
