@@ -2,10 +2,10 @@
 
 \begin{document}
 
-Calculation of two plus two:
+Calculation of four numbers sum:
 
 <<r-simple-calculation>>=
-2+2
+3+3+7+9
 @
 
 \end{document}

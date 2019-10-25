@@ -1,0 +1,24 @@
+\documentclass{article}
+
+\usepackage{graphicx}
+
+\begin{document}
+
+Linear regression of expenses and savings:
+
+<<graphics-expenses-savings, echo=FALSE>>=
+library( ggplot2 )
+png("Fig01.png", height=800, width=800, units='px', res=100)
+ggplot(economics, aes(x=psavert, y=pce)) + geom_point() + geom_smooth(method="lm") + labs(x="Savings", y="Expenses")
+device <- dev.off()
+@
+
+\begin{figure}[h!]
+  \includegraphics{Fig01.png}
+\end{figure}
+
+<<linear-model-expenses-savings, echo=FALSE>>=
+summary( lm(pce~psavert, data=economics) )
+@
+
+\end{document}
