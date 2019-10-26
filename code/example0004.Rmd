@@ -1,0 +1,19 @@
+---
+title: "Програмиране на Android - практическо ръководство"
+author: "Тодор Балабанов"
+date: "20.X.2016"
+output:
+  html_document:
+    number_sections: yes
+    toc: yes
+---
+
+# Институт по информационни и комуникационни технологии
+
+## Българска академия на науките
+
+___София 2016___
+
+[Програмиране на Android - практическо ръководство](http://parallel.bas.bg/lcst/2016/06-2016-T_Balabanov.pdf)
+
+![Програмиране на Android - практическо ръководство](http://parallel.bas.bg/lcst/2016/06-2016-T_Balabanov.jpg)
