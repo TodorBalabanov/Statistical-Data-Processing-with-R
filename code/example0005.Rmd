@@ -1,0 +1,18 @@
+---
+title: "Simple Arithmetics"
+author: "Todor Balabanov"
+date: "26.X.2019"
+output: pdf_document
+---
+
+```{r simple-sum}
+3 + 3 + 7 + 9
+```
+
+```{r random-dots}
+png("random-dots-100-100.png", height=800, width=800, units='px', res=100)
+plot(sample(1:100),sample(1:100), main="Random dots in 100x100.", xlab="X", ylab="Y")
+dev.off()
+```
+
+![Random dots in 100x100.](random-dots-100-100.png)
