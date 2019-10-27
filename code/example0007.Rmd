@@ -1,0 +1,87 @@
+---
+title: "Genetic Algorithm Selection Operator Based on Recursion and Brute-Force"
+author: "Todor Balabanov"
+date: "27.X.2019"
+place: "Sofia, Bulgaria"
+output: ioslides_presentation
+---
+
+## Introduction
+
+This research proposes
+
+ - New selection operator based on recursive generations creation. 
+
+ - At each level of recursion 
+
+    1. All individuals in the population are mate between each other (brute-force)and 
+
+    2. Only the best individual goes up in the recursion levels
+
+## The core of the idea
+
+Genetic algorithms 
+
+  - Global optimisation meta-heuristics
+
+  - Inspired by the ideas in the neutral evolution. 
+
+Optimisation process
+
+  - Organised in three common operations
+
+    1. Selection
+
+    2. Crossover
+
+    3. Mutation
+
+## Heuristic nature
+
+  - Crossover and mutation are responsible for proposition of new solutions
+
+    - Crossover does exploration
+
+    - Mutation does exploitation
+
+  - Selection is responsible for better choice of parents
+
+## Most popular selection operators
+
+  - Proportional Selection
+
+  - Tournament Selection
+
+  - Rank-Based Selection
+
+  - Boltzmann Selection
+
+  - Soft Brood Selection
+
+  - Disruptive Selection
+
+  - Nonlinear Ranking Selection
+
+  - Competitive Selection
+
+## Proposed selection operator
+
+Recursion Brute-Force selection
+
+  - Populations are organised in levels
+
+  - All individuals in a single population are mate with each other
+
+  - Each level promote only one single best found solution for the upper level population
+
+## About the author
+
+Dip.Eng. Todor Balabanov Ph.D.
+
+[GitHub](http://github.com/TodorBalabanov)
+
+[LinkedIn](http://www.linkedin.com/in/todor-balabanov)
+
+[ResearchGate](http://www.researchgate.net/profile/Todor_Balabanov2)
+
+[Google Scholar](http://scholar.google.bg/citations?hl=bg&user=P9frIW8AAAAJ&view_op=list_works&sortby=pubdate)
