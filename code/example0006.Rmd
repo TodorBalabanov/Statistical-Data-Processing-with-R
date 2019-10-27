@@ -1,0 +1,26 @@
+---
+title: "Интерактивни документи"
+author: "Тодор Балабанов"
+date: "27.X.2019"
+output:
+  html_document:
+    always_allow_html: yes
+---
+
+```{r static-table}
+kable(head(economics), caption='Представяне на информацията в статична таблица')
+```
+
+```{r dynamic-table}
+datatable(head(economics,100), caption='Представяне на информацията в динамична таблица')
+```
+
+```{r advanced-dynamic-table}
+datatable(head(economics,100), caption='Представяне на информацията в динамична таблица допълнително оформление', rownames=FALSE, extensions='Scroller', filter='top', options=list(dom="tiS", scrollX=TRUE, scrollY=400, scrollCollapse=TRUE))
+```
+
+Интерактивна топлинна карта
+
+```{r dynamic-heatmap, echo=FALSE}
+d3heatmap(economics%>%select_if(is.numeric)%>%cor, colors="YlOrRd", width=800, height=800)
+```
