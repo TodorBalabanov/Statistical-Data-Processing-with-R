@@ -102,12 +102,12 @@
 \thispagestyle{empty}
 
 % Тук стои таблицата със съдържанието, което се генерира от названието на главите.
-\newpage
-\thispagestyle{empty}
-\pagestyle{empty}
-\shorttoc{Теми}{0}
-\thispagestyle{empty}
-\pagestyle{empty}
+%\newpage
+%\thispagestyle{empty}
+%\pagestyle{empty}
+%\shorttoc{Теми}{0}
+%\thispagestyle{empty}
+%\pagestyle{empty}
 
 % Тук стои таблицата със съдържанието, което се генерира от названието на главите и названието на секциите в тях.
 \newpage
@@ -117,6 +117,21 @@
 \tableofcontents
 \thispagestyle{empty}
 \pagestyle{empty}
+
+\pagestyle{fancy}
+\include{chapters/introduction}
+\include{chapters/chapter01}
+\include{chapters/chapter02}
+\include{chapters/chapter03}
+\include{chapters/chapter04}
+\include{chapters/chapter05}
+\include{chapters/chapter06}
+\include{chapters/chapter07}
+\include{chapters/chapter08}
+\include{chapters/chapter09}
+\include{chapters/chapter10}
+\include{chapters/chapter11}
+\include{chapters/conclusion}
 
 % Списък с фигурите.
 \newpage
@@ -138,29 +153,10 @@
 \listoftables
 \addcontentsline{toc}{chapter}{Списък на таблиците}
 
-\pagestyle{fancy}
-\include{chapters/introduction}
-\include{chapters/chapter01}
-\include{chapters/chapter02}
-\include{chapters/chapter03}
-\include{chapters/chapter04}
-\include{chapters/chapter05}
-\include{chapters/chapter06}
-\include{chapters/chapter07}
-\include{chapters/chapter08}
-\include{chapters/chapter09}
-\include{chapters/chapter10}
-\include{chapters/chapter11}
-\include{chapters/conclusion}
-
 % Списък с използвана литература и източници на информация.
 \newpage
 \begin{thebibliography}{99}
 \addcontentsline{toc}{chapter}{Библиография}
-
-\bibitem{gpl2} GNU General Public License, version 2, Free Software Foundation, \\\texttt{http://www.gnu.org/licenses/old-licenses/gpl-2.0.html}
-
-\bibitem{hnot} Hungarian notation, Wikimedia Foundation, Inc., \\\texttt{http://en.wikipedia.org/wiki/Hungarian\_notation}
 
 \bibitem{spss} Zagumny, M.: The SPSS Boo: A Student Guide to the Statistical Package for the Social Sciences, iUniverse, 2001.
 
@@ -205,6 +201,30 @@
 \bibitem{ga} Goldberg, D.: Genetic Algorithms in Search, Optimization, and Machine Learning 1st Edition, Addison-Wesley Professional, 1989.
 
 \bibitem{montecarlo} Rubinstein, R., Kroese, D.: Simulation and the Monte Carlo Method 2nd Edition, Wiley-Interscience, 2007.
+
+\bibitem{r08} Matloff, N.: The Art of R Programming: A Tour of Statistical Software Design 1st Edition, No Starch Press, 2011.
+
+\bibitem{r09} Gardener, M.: Beginning R The Statistical Programming Language 1st Edition, Wrox, 2012.
+
+\bibitem{r10} Chambers, J.: Software for Data Analysis: Programming with R (Statistics and Computing) 2nd Edition, Springer, 2009.
+
+\bibitem{r01} Venables, W., Smith D.: An Introduction to R Notes on R: A Programming Environment for Data Analysis and Graphics, \\\texttt{https://cran.r-project.org/doc/manuals/r-release/R-intro.pdf}
+
+\bibitem{r02} R Data Import/Export, \\\texttt{https://cran.r-project.org/doc/manuals/r-release/R-data.pdf}
+
+\bibitem{r03} R Installation and Administration, \\\texttt{https://cran.r-project.org/doc/manuals/r-release/R-admin.pdf}
+
+\bibitem{r04} Writing R Extensions, \\\texttt{https://cran.r-project.org/doc/manuals/r-release/R-exts.pdf}
+
+\bibitem{r05} R Language Definition, \\\texttt{https://cran.r-project.org/doc/manuals/r-release/R-lang.pdf}
+
+\bibitem{r06} R Internals, \\\texttt{https://cran.r-project.org/doc/manuals/r-release/R-ints.pdf}
+
+\bibitem{r07} R A Language and Environment for Statistical Computing, \\\texttt{https://cran.r-project.org/doc/manuals/r-release/fullrefman.pdf}
+
+\bibitem{gpl2} GNU General Public License, version 2, Free Software Foundation, \\\texttt{http://www.gnu.org/licenses/old-licenses/gpl-2.0.html}
+
+\bibitem{hnot} Hungarian notation, Wikimedia Foundation, Inc., \\\texttt{http://en.wikipedia.org/wiki/Hungarian\_notation}
 
 \end{thebibliography}
 
