@@ -21,6 +21,7 @@
 % Служи за списък на формулите.
 \usepackage{tocloft}
 \usepackage{amsmath,amssymb,amsthm}
+\usepackage{dirtytalk}
 
 % Добавени от доц. Вера Ангелова.
 %\usepackage{longtable}
@@ -61,7 +62,7 @@
 % Оформление на хедъра и футъра.
 \lhead[\thepage \quad Тодор Балабанов, Зорница Атанасова, Румен Кетипов \quad \hfill]{}
 \rhead[]{\hfill Статистическа обработка на данни с R \quad \thepage }
-\cfoot[\em Лекции по компютърни науки и технологии на ИИКТ - БАН, № 9, 2019]{\em Лекции по компютърни науки и технологии на ИИКТ - БАН, № 9, 2019} 
+\cfoot[\em Издателство \say{Образование и Познание}, 2019]{\em Издателство \say{Образование и Познание}, 2019} 
 \renewcommand{\headrulewidth}{1pt}
 \renewcommand{\footrulewidth}{1pt}
 
@@ -102,12 +103,12 @@
 \thispagestyle{empty}
 
 % Тук стои таблицата със съдържанието, което се генерира от названието на главите.
-%\newpage
-%\thispagestyle{empty}
-%\pagestyle{empty}
-%\shorttoc{Теми}{0}
-%\thispagestyle{empty}
-%\pagestyle{empty}
+\newpage
+\thispagestyle{empty}
+\pagestyle{empty}
+\shorttoc{Теми}{0}
+\thispagestyle{empty}
+\pagestyle{empty}
 
 % Тук стои таблицата със съдържанието, което се генерира от названието на главите и названието на секциите в тях.
 \newpage
@@ -117,21 +118,6 @@
 \tableofcontents
 \thispagestyle{empty}
 \pagestyle{empty}
-
-\pagestyle{fancy}
-\include{chapters/introduction}
-\include{chapters/chapter01}
-\include{chapters/chapter02}
-\include{chapters/chapter03}
-\include{chapters/chapter04}
-\include{chapters/chapter05}
-\include{chapters/chapter06}
-\include{chapters/chapter07}
-\include{chapters/chapter08}
-\include{chapters/chapter09}
-\include{chapters/chapter10}
-\include{chapters/chapter11}
-\include{chapters/conclusion}
 
 % Списък с фигурите.
 \newpage
@@ -152,6 +138,21 @@
 \newpage
 \listoftables
 \addcontentsline{toc}{chapter}{Списък на таблиците}
+
+\pagestyle{fancy}
+\include{chapters/introduction}
+\include{chapters/chapter01}
+\include{chapters/chapter02}
+\include{chapters/chapter03}
+\include{chapters/chapter04}
+\include{chapters/chapter05}
+\include{chapters/chapter06}
+\include{chapters/chapter07}
+\include{chapters/chapter08}
+\include{chapters/chapter09}
+\include{chapters/chapter10}
+\include{chapters/chapter11}
+\include{chapters/conclusion}
 
 % Списък с използвана литература и източници на информация.
 \newpage
