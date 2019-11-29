@@ -79,12 +79,24 @@
 
 \def\ql{\textquotedblleft}\def\qr{\textquotedblright}
 
-\includepdf[pages={1,2}]{images/front}
+\includepdf[pages={1}]{images/front}
 \thispagestyle{empty}
 
-\voffset =-1truecm
+% Страница с авторски права.
+\newpage
+~\vfill
+\thispagestyle{empty}
+\noindent Авторски права \copyright\ 2019 \\
+Тодор Балабанов, Зорница Атанасова, Румен Кетипов \\ 
+\noindent \textsc{Издателство \say{Образование и Познание}} \\
+\noindent \textsc{https://www.obrazovaniebg.net/} \\
+\noindent Разпространява се под свободен лиценз: \\ 
+Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International Public License \\
+\url{https://creativecommons.org/licenses/by-nc-nd/4.0} \\
+\noindent \textit{Първо издание, 2019}
 
 % Използва се за номерация на страниците.
+\voffset =-1truecm
 \renewcommand{\thepage}{\roman{page}}
 
 % Смяна на названието за списъка от листингите.
