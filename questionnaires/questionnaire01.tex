@@ -1,4 +1,4 @@
-\documentclass[a4paper,12pt]{minimal}
+﻿\documentclass[a4paper,12pt]{minimal}
 
 \usepackage[12pt]{moresize}
 \usepackage{hyperref}
@@ -6,28 +6,87 @@
 \usepackage[english,bulgarian]{babel}
 
 \hypersetup{
-  pdfauthor   = {Тодор Балабанов},
+  pdfauthor = {Тодор Балабанов},
   pdfkeywords = {},
-  pdftitle    = {Инсталация и стартиране}
+  pdftitle = {Тест по R}
 }
 
 \begin{document}
 
+\begin{center}
 {\Huge Инсталация и стартиране}
+\end{center}
 
 \begin{Form}[action=mailto:todor.balabanov@gmail.com,encoding=text,method=post]
 
-\begin{tabular}{c c c}
+\begin{tabular}{c c c} \\ 
 	\TextField[name=first_name]{Име} & \TextField[name=second_name]{Презиме} & \TextField[name=third_name]{Фамилия} \\ \\
 	\CheckBox[name=phd_student,width=3mm]{Докторант} & \CheckBox[name=bas_employee,width=3mm]{Служител в БАН} &  \CheckBox[name=other_student,width=3mm]{Друго} \\ \\
 	\TextField[name=email]{Имейл} & \TextField[name=phone]{Телефон} & \TextField[name=mobile]{Мобилен}  \\ \\ 
 \end{tabular}
 
-Въпрос 1? \ChoiceMenu[radio,name=question_01]{\mbox{}}{\\Отговор 1=a,\\Отговор 2=a,\\Отговор 3=c,\\Отговор 4=d} \\
+1. Програмният продукт R е?
+\ChoiceMenu[radio,name=question_01]{\mbox{}}{\\
+Със затворен код;=a,\\
+С отворен код;=b,\\%
+Без програмен код;=c,\\
+С минималистичен програмен код;=d}\\
 
-Въпрос 2? \ChoiceMenu[radio,name=question_01]{\mbox{}}{\\Отговор 1=a,\\Отговор 2=a,\\Отговор 3=c,\\Отговор 4=d} \\
+2. Програмният продукт R е?
+\ChoiceMenu[radio,name=question_02]{\mbox{}}{\\
+Лошо организиран;=a,\\
+Добре организиран;=b,\\
+Организиран на модулен принцип;=c,\\%
+Организиран на монолитен принцип;=d}\\
 
-Въпрос 3? \ChoiceMenu[radio,name=question_01]{\mbox{}}{\\Отговор 1=a,\\Отговор 2=a,\\Отговор 3=c,\\Отговор 4=d} \\
+3. Програмният продукт R е не може да се използва на?
+\ChoiceMenu[radio,name=question_03]{\mbox{}}{\\
+Обикновен калкулатор;=a,\\%
+Операционна система Windows;=b,\\
+Операционна система Linux;=c,\\
+Операционна система MacOS;=d}\\
+
+4. Програмният продукт R се разпространява във?
+\ChoiceMenu[radio,name=question_04]{\mbox{}}{\\
+Версия с 20 и 40 бита;=a,\\
+Версия с 16 и 32 бита;=b,\\
+Версия с 16 и 64 бита;=c,\\
+Версия с 32 и 64 бита;=d}\\%
+
+5. Програмният продукт R се разпространява под?
+\ChoiceMenu[radio,name=question_05]{\mbox{}}{\\
+GPL2 лиценз;=a,\\%
+MIT лиценз;=b,\\
+BSD2 лиценз;=c,\\
+CDDL лиценз;=d}\\
+
+6. Програмният продукт R се използва?
+\ChoiceMenu[radio,name=question_06]{\mbox{}}{\\
+В уеб браузър;=a,\\
+С индустриален контролер;=b,\\
+В режим на команден интерпретатор;=c,\\%
+С помощта на аудио интерфейс ;=d}\\
+
+7. Програмният продукт R е базиран на?
+\ChoiceMenu[radio,name=question_07]{\mbox{}}{\\
+Декларативен програмен език;=a,\\
+Интерпретивен програмен език;=b,\\%
+Компилация от полуинтерпретивен тип;=c,\\
+Компилатор и линкер;=d}\\
+
+8. Програмният продукт R?
+\ChoiceMenu[radio,name=question_08]{\mbox{}}{\\
+Използва библиотеки;=a,\\%
+Не използва библиотеки;=b,\\
+Репродуцира библиотеки;=c,\\
+Интерполира библиотеки;=d}\\
+
+9. Програмният продукт R е предназначен за?
+\ChoiceMenu[radio,name=question_09]{\mbox{}}{\\
+Манипулативна обработка на данни;=a,\\
+Интуитивна обработка на данни;=b,\\
+Репродуктивна обработка на данни;=c,\\
+Статистическа обработка на данни;=d}\\%
 
 \Submit{Изпрати}
 \Reset{Изчисти}
