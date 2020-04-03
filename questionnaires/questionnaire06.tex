@@ -1,0 +1,96 @@
+\documentclass[a4paper,12pt]{minimal}
+
+\usepackage[12pt]{moresize}
+\usepackage{hyperref}
+\usepackage[utf8x]{inputenc}
+\usepackage[english,bulgarian]{babel}
+
+\hypersetup{
+  pdfauthor = {Тодор Балабанов},
+  pdfkeywords = {},
+  pdftitle = {Тест по R}
+}
+
+\begin{document}
+
+\begin{center}
+{\Huge Групиране и обхождане на данни}
+\end{center}
+
+\begin{Form}[action=mailto:todor.balabanov@gmail.com,encoding=text,method=post]
+
+\begin{tabular}{c c c} \\ 
+	\TextField[name=first_name]{Име} & \TextField[name=second_name]{Презиме} & \TextField[name=third_name]{Фамилия} \\ \\
+	\CheckBox[name=phd_student,width=3mm]{Докторант} & \CheckBox[name=bas_employee,width=3mm]{Служител в БАН} &  \CheckBox[name=other_student,width=3mm]{Друго} \\ \\
+	\TextField[name=email]{Имейл} & \TextField[name=phone]{Телефон} & \TextField[name=mobile]{Мобилен}  \\ \\ 
+\end{tabular}
+
+1. ?
+\ChoiceMenu[radio,name=question_01]{\mbox{}}{\\
+;=a,\\
+;=b,\\
+;=c,\\%
+;=d}\\
+
+2. ?
+\ChoiceMenu[radio,name=question_02]{\mbox{}}{\\
+;=a,\\
+;=b,\\
+;=c,\\
+;=d}\\%
+
+3. ?
+\ChoiceMenu[radio,name=question_03]{\mbox{}}{\\
+;=a,\\%
+;=b,\\
+;=c,\\
+;=d}\\
+
+4. ?
+\ChoiceMenu[radio,name=question_04]{\mbox{}}{\\
+;=a,\\
+;=b,\\%
+;=c,\\
+;=d}\\
+
+5. ?
+\ChoiceMenu[radio,name=question_05]{\mbox{}}{\\
+;=a,\\
+;=b,\\%
+;=c,\\
+;=d}\\
+
+6. ?
+\ChoiceMenu[radio,name=question_06]{\mbox{}}{\\
+;=a,\\%
+;=b,\\
+;=c,\\
+;=d}\\
+
+7. ?
+\ChoiceMenu[radio,name=question_07]{\mbox{}}{\\
+;=a,\\
+;=b,\\
+;=c,\\
+;=d}\\%
+
+8. ?
+\ChoiceMenu[radio,name=question_08]{\mbox{}}{\\
+;=a,\\
+;=b,\\
+;=c,\\
+;=d}\\%
+
+9. ?
+\ChoiceMenu[radio,name=question_09]{\mbox{}}{\\
+;=a,\\
+;=b,\\%
+;=c,\\
+;=d}\\
+
+\Submit{Изпрати}
+\Reset{Изчисти}
+
+\end{Form}
+
+\end{document}
