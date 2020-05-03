@@ -1,0 +1,169 @@
+\documentclass{beamer}
+
+\usepackage[T2A]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage[english,bulgarian]{babel}
+
+\mode<presentation> {
+	\usetheme{Berlin}
+}
+
+%\usebackgroundtemplate {
+%	\includegraphics[width=370px, height=270px, trim=0 0 0 -80px]{background}
+%}
+
+\graphicspath{{../images/}}
+
+\title{Пакетна организация, променливи, основни математически операции в R и типове данни}
+\subtitle{Статистическа обработка на данни с R}
+
+\author{Пламен Петров и Тодор Балабанов}
+
+\date{03.V.2020}
+
+\institute[ЦО и ИИКТ към БАН] {
+	Център за обучение \\
+	Институт по информационни и комуникационни технологии \\ 
+	Българската академия на науките \\
+	\medskip
+	\textit{p.petrov@iit.bas.bg todorb@iinf.bas.bg}
+}
+
+\addtobeamertemplate{navigation symbols}{}{
+	\usebeamerfont{footline}
+	\usebeamercolor[fg]{footline}
+	\hspace{1em}
+	\insertframenumber/\inserttotalframenumber
+}
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\section*{Теми}
+\begin{frame}
+	\frametitle{Съдържание}
+	\tableofcontents
+\end{frame}
+
+\section{Инсталиране на пакети}
+
+\begin{frame}
+\center \huge{Инсталиране на пакети}
+\end{frame}
+
+\subsection{Пример с пакета coefplot}
+
+\begin{frame}
+\frametitle{Команда за инсталиране на пакета coefplot}
+\begin{figure}[]\includegraphics[width=\textwidth,height=0.75\textheight]{pic0014}\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Избор на сървър за изтегляне на пакета}
+\begin{figure}[]\includegraphics[width=\textwidth,height=0.75\textheight]{pic0015}\end{figure}
+\end{frame}
+
+\subsection{Връзки между пакетите}
+
+\begin{frame}
+\frametitle{Зависимости между пакетите}
+\begin{figure}[]\includegraphics[width=\textwidth,height=0.75\textheight]{pic0016}\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Резултат от инсталацията на пакета}
+\begin{figure}[]\includegraphics[width=\textwidth,height=0.75\textheight]{pic0017}\end{figure}
+\end{frame}
+
+\subsection{Зареждане и премахване на пакети}
+
+\begin{frame}
+\frametitle{Зареждане на пакета coefplot}
+\begin{figure}[]\includegraphics[width=\textwidth,height=0.75\textheight]{pic0018}\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Премахване на пакета coefplot от общата памет}
+\begin{figure}[]\includegraphics[width=\textwidth,height=0.75\textheight]{pic0019}\end{figure}
+\end{frame}
+
+\section{Основни математически операции}
+
+\begin{frame}
+\center \huge{Основни математически операции}
+\end{frame}
+
+\subsection{Изпълнение на команди с операции за пресмятане}
+
+\begin{frame}
+\frametitle{Примерни аритметични операции}
+\begin{figure}[]\includegraphics[width=\textwidth,height=0.75\textheight]{pic0020}\end{figure}
+\end{frame}
+
+\subsection{Свойства на операциите}
+
+\begin{frame}
+\frametitle{Кардиналност и асоциативност}
+\begin{block}{Събиране - бинарна операция}
+1 + 1
+\end{block}
+\begin{block}{Минус - унарна операция}
+-5
+\end{block}
+\begin{block}{Лява асоциативност}
+2 + 2 + 2
+\end{block}
+\begin{block}{Дясна асоциативност}
+a = b = 2
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Контекстна зависимост на операциите}
+\begin{block}{Контекстна зависимост при събиране}
+"abc" + "def"
+
+2 + 2
+\end{block}
+\begin{block}{Контекстна зависимост при делене}
+5 / 3
+
+5.0 / 3.0
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Приоритет на операциите}
+\begin{block}{Аритметични операции}
+2 + 2 * 2
+\end{block}
+\begin{block}{Смяна на приоритета}
+(2 + 2) * 2
+\end{block}
+\end{frame}
+
+\section{Типове и променливи}
+
+\begin{frame}
+\center \huge{Типове и променливи}
+\end{frame}
+
+\subsection{}
+
+\section{Заключение}
+
+\begin{frame}
+\center \huge{Заключение}
+\end{frame}
+
+\subsection{Дискусия}
+
+\begin{frame}
+\frametitle{Въпроси и отговори}
+\center \huge{Благодаря за вниманието!}
+\end{frame}
+
+\end{document}
