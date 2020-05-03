@@ -151,7 +151,98 @@ a = b = 2
 \center \huge{Типове и променливи}
 \end{frame}
 
-\subsection{}
+\subsection{Създаване на променливи}
+
+\begin{frame}
+\frametitle{Операции за присвояване}
+\begin{block}{Задаване на стойност}
+a = 1
+
+b <- 2
+
+c = d = 3
+
+e <- f <- 4
+
+assign($"$g$"$, 5)
+
+a += 6
+
+b -= 7
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Алтернативи за присвояване}
+\begin{block}{Два различни записа}
+median(x = 1:10)
+
+median(x <- 1:10)
+\end{block}
+
+В първия случай променливата x не остава в глобалната памет, а изчезва, докато при втория случай променливата x остава в глобалната памет след извикването.
+\end{frame}
+
+\subsection{Премахване на променливи}
+
+\begin{frame}
+\frametitle{Почистване на глобалната памет}
+\begin{block}{Конкретна промелива или цялата памет}
+rm( a )
+
+rm( list=ls() )
+\end{block}
+\end{frame}
+
+\section{Представяне на информацията}
+
+\begin{frame}
+\center \huge{Представяне на информацията}
+\end{frame}
+
+\subsection{Числени стойности}
+
+\begin{frame}
+\frametitle{Проверка за типа на променливата}
+\begin{block}{Функция class}
+a = 5
+
+class( a )
+
+[1] "numeric"
+\end{block}
+
+\begin{block}{Функция is.numeric}
+is.numeric( a )
+
+[1] TRUE
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Използване на целочислен тип}
+\begin{block}{Типовете numeric и integer са различни}
+b <- 6L
+
+class( b )
+
+[1] "integer"
+
+is.numeric( b )
+
+[1] TRUE
+
+is.integer( b )
+
+[1] TRUE
+
+is.integer( a )
+
+[1] FALSE
+\end{block}
+\end{frame}
+
+\subsection{Символни низове}
 
 \section{Заключение}
 
