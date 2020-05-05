@@ -244,6 +244,143 @@ is.integer( a )
 
 \subsection{Символни низове}
 
+\begin{frame}
+\frametitle{Представяне на текст}
+\begin{block}{Символни низове в R}
+s1 <- "Simple text."
+
+[1] "Simple text."
+
+class( s1 )
+
+[1] "character"
+
+s2 <- factor( "Another simple text." )
+
+[1] Another simple text.
+
+Levels: Another simple text.
+
+class( s2 )
+
+[1] "factor"
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Дължина на данните}
+\begin{block}{Символни низове и числа}
+nchar( s1 )
+
+[1] 12
+
+nchar( s2 )
+
+Error in nchar(s2) : 'nchar()' requires a character vector
+
+nchar( a )
+
+[1] 1
+\end{block}
+\end{frame}
+
+\subsection{Астрономическо време}
+
+\begin{frame}
+\frametitle{Представяне на дати в паметта}
+\begin{block}{Тип Date}
+d1 <- as.Date("1979-04-21")
+
+[1] "1979-04-21"
+
+class( d1 )
+
+[1] "Date"
+
+as.numeric( d1 )
+
+[1] 3397
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Представяне дати и часове в паметта}
+\begin{block}{Тип POSIXct}
+d2 <- as.POSIXct("1980-02-12 05:25")
+
+[1] "1980-02-12 05:25:00 EET"
+
+class( d2 )
+
+[1] "POSIXct" "POSIXt" 
+
+as.numeric( d2 )
+
+[1] 319173900
+\end{block}
+\end{frame}
+
+\subsection{Логически стойности}
+
+\begin{frame}
+\frametitle{Булеви стойности}
+\begin{block}{Логически тип данни}
+x1 <- TRUE
+
+[1] TRUE
+
+class( x1 )
+
+[1] "logical"
+
+is.logical( x1 )
+
+[1] TRUE
+
+as.numeric( x1 )
+
+[1] 1
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Алтернативни константи}
+\begin{block}{По-добре е да се ползва пълният запис}
+x2 <- F
+
+[1] FALSE
+
+class( x2 )
+
+[1] "logical"
+
+is.logical( x2 )
+
+[1] TRUE
+
+as.numeric( x2 )
+
+[1] 0
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Резултат от логически ирази}
+\begin{block}{Операции за сравнение}
+2 == 3
+
+[1] FALSE
+
+5 != 6
+
+[1] TRUE
+
+$"$Peter$"$ == $"$Ivan$"$
+
+[1] FALSE
+\end{block}
+\end{frame}
+
 \section{Заключение}
 
 \begin{frame}
