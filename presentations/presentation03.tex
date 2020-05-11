@@ -255,11 +255,231 @@ x > y
 
 \subsection{Списъци}
 
+\begin{frame}
+\frametitle{Контейнери с обекти от различен тип}
+\begin{block}{Създаване на списък}
+l1 <- list(1, 2, 3, 4, 5)
+[[1]]
+
+[1] 1
+
+[[2]]
+
+[1] 2
+
+[[3]]
+
+[1] 3
+
+[[4]]
+
+[1] 4
+
+[[5]]
+
+[1] 5
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Трансформация на контейнери}
+\begin{block}{Вектор към списък}
+l2 <- list( c(1, 2, 3, 4, 5) )
+
+[[1]]
+
+[1] 1 2 3 4 5
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Контейнер с разнородни типове данни}
+\begin{block}{Названия на елементите в списъка}
+df2 <- data.frame(First=x, Second=y, Sport=q)
+
+rownames( df2 ) <- c("One", "Two", "Three", "Four", "Five")
+
+l3 <- list( df2, 1:5, l1 )
+
+names( l3 ) <- c("Frame", "Vector", "Element")
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Достъп до елементите}
+\begin{block}{Достъп до елементите на списъка}
+l3[ 1 ]
+
+l3[ $"$Frame$"$ ]
+
+\$Frame
+
+      First Second      Sport
+
+One       4      0   Football
+
+Two       1     -2 Basketball
+
+Three     3      1 Volleyball
+
+Four      2     -1   Handball
+
+Five      5      2      Rugby
+
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Достъп до елементите}
+\begin{block}{Вложено позоваване}
+l3[[1]]
+
+      First Second      Sport
+
+One       4      0   Football
+
+Two       1     -2 Basketball
+
+Three     3      1 Volleyball
+
+Four      2     -1   Handball
+
+Five      5      2      Rugby
+
+l3[["Frame"]]\$Sport
+
+[1] Football   Basketball Volleyball Handball   Rugby     
+
+Levels: Basketball Football Handball Rugby Volleyball
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Запис на данни}
+\begin{block}{Добавяне на елемент}
+l3[ 4 ] <- "Games"
+
+[[4]]
+
+[1] "Games"
+\end{block}
+\end{frame}
+
 \subsection{Матрици}
+
+\begin{frame}
+\frametitle{Многомерни данни}
+\begin{block}{Създаване на матрици}
+m1 <- matrix(1:6, nrow=3)
+
+m2 <- matrix(7:12, nrow=3)
+
+m3 <- matrix(7:18, nrow=2)
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Пресмятания при повече измерения}
+\begin{block}{Операции с матрици}
+nrow( m1 )
+
+ncol( m1 )
+
+dim( m1 )
+
+m1 + m2
+ 
+m1 * m2
+
+m1 == m2
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Пресмятания при повече измерения}
+\begin{block}{Матрично умножение}
+m1 \%*\% t(m2)
+
+     [,1] [,2] [,3]
+
+[1,]   47   52   57
+
+[2,]   64   71   78
+
+[3,]   81   90   99
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Преименуване}
+\begin{block}{Имена на колоните и редовете}
+colnames( m1 ) <- c($"$First$"$, $"$Second$"$)
+
+rownames( m1 ) <- c($"$One$"$, $"$Two$"$, $"$Three$"$)
+
+colnames( m2 ) <- c($"$Left$"$, $"$Right$"$)
+
+rownames( m2 ) <- c($"$1st$"$, $"$2nd$"$, $"$3rd$"$)
+\end{block}
+\end{frame}
 
 \subsection{Масиви}
 
 \subsection{Липсващи стойности}
+
+\begin{frame}
+\frametitle{Проблеми при отчитане на данните}
+\begin{block}{Липсващи стойности}
+x <- c(1, NA, 3, NA, 5)
+
+[1]  1 NA  3 NA  5
+
+is.na( x )
+
+[1] FALSE  TRUE FALSE  TRUE FALSE
+
+mean( x )
+
+[1] NA
+
+median( x )
+
+[1] NA
+
+sd( x )
+
+[1] NA
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Проблеми при отчитане на данните}
+\begin{block}{Аварийна стойност}
+y <- c(1, NULL, 3, NULL, 5)
+
+[1] 1 3 5
+
+is.na( y )
+
+[1] FALSE FALSE FALSE
+
+mean( y )
+
+[1] 3
+
+median( y )
+
+[1] 3
+
+sd( y )
+
+[1] 2
+
+is.null( y )
+
+[1] FALSE
+\end{block}
+\end{frame}
 
 \section{Структури подходящи за статистическа обработка}
 
