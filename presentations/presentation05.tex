@@ -106,11 +106,88 @@ https://raw.githubusercontent.com/TodorBalabanov/Statistical-Data-Processing-wit
 
 \subsection{Оператор за условен преход}
 
+\begin{frame}
+\frametitle{Избор на инструкции}
+\begin{block}{Оператор за условен преход if}
+sayHello <- sample(c(TRUE,FALSE), 1, TRUE);
+
+if(sayHello == TRUE) \{
+
+	print( $"$Hello!$"$ );
+	
+\}
+
+print( $"$Bye!$"$ );
+\end{block}
+\end{frame}
+
 \subsection{Алтернатива при условен преход}
+
+\begin{frame}
+\frametitle{Алтернативи при избор}
+\begin{block}{Оператор за условен преход if-else}
+sayHello <- sample(c(TRUE,FALSE), 1, TRUE);
+
+if(sayHello == TRUE) \{
+
+	print( $"$Hello!$"$ );
+
+\} else \{
+
+	print( $"$Hi!$"$ );
+
+\}
+
+print( $"$Bye!$"$ );
+\end{block}
+\end{frame}
 
 \subsection{Каскада от условни преходи}
 
+\begin{frame}
+\frametitle{Множество от алтернативи}
+\begin{block}{Каскада от if-else}
+sayHello <- sample(c(0,1,2), 1, TRUE);
+
+if(sayHello == 0) \{
+
+	print( $"$Hello!$"$ );
+
+\} else if(sayHello == 1) \{
+
+	print( $"$Hi!$"$ );
+
+\} else if(sayHello == 2) \{
+
+	print( $"$Yoo!$"$ );
+
+\} else \{
+
+	print( $"$Error!$"$ );
+
+\}
+
+print( $"$Bye!$"$ );
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Множество от алтернативи}
+\begin{block}{Функцията ifelse}
+ifelse(sample(c(FALSE,TRUE), 1, TRUE), $"$Yes$"$, $"$No$"$)
+
+ifelse(c(1,1,0,1,0,1)==1, $"$Yes$"$, $"$No$"$)
+\end{block}
+\end{frame}
+
 \subsection{Оператор за многовариантен избор}
+
+\begin{frame}
+\frametitle{Множесво възможности}
+\begin{block}{Конструкция за многовариантен избор switch}
+switch(sample(c($"$a$"$,$"$b$"$,$"$c$"$,$"$d$"$,$"$e$"$),1,TRUE), $"$a$"$=$"$one$"$, $"$b$"$=$"$two$"$, $"$c$"$=$"$three$"$, $"$d$"$=$"$four$"$, $"$other$"$)
+\end{block}
+\end{frame}
 
 \section{Оператори за цикъл}
 
