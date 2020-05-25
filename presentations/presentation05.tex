@@ -197,9 +197,77 @@ switch(sample(c($"$a$"$,$"$b$"$,$"$c$"$,$"$d$"$,$"$e$"$),1,TRUE), $"$a$"$=$"$one
 
 \subsection{Цикъл за обхождане}
 
+\begin{frame}
+\frametitle{Оператор за цикъл for}
+\begin{block}{Обхождане по числен диапазон}
+for(number in 1:10) \{ 
+
+	print(number); 
+	
+\}
+\end{block}
+
+\begin{block}{Обхождане по вктор от символни низове}
+for(f in c($"$orange$"$, $"$lemon$"$, $"$kiwi$"$, $"$cherry$"$)) \{ 
+
+	print(f); 
+
+\}
+\end{block}
+\end{frame}
+
 \subsection{Цикъл с условие за край}
 
+\begin{frame}
+\frametitle{Цикъл с предусловие}
+\begin{block}{Цикъл с условие за край}
+counter <- 1;
+
+while(counter <= 5) \{ 
+
+	print( counter ); 
+	
+	counter <- counter + 1;
+
+\}
+\end{block}
+\end{frame}
+
 \subsection{Прекъсване на циклите}
+
+\begin{frame}
+\frametitle{Частично прекъсване}
+\begin{block}{Прекъсване на итерация}
+for(number in 1:10) \{ 
+
+	if(number == 7) \{
+	
+		next;
+		
+	\}
+
+	print(number);
+	
+\}
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Пълно прекъсване}
+\begin{block}{Прекъсване на цикъла}
+for(number in 1:10) \{ 
+
+	if(number == 3) \{
+	
+		break;
+		
+	\}
+
+	print(number);
+
+\}
+\end{block}
+\end{frame}
 
 \section{Потребителски функции}
 
@@ -209,13 +277,112 @@ switch(sample(c($"$a$"$,$"$b$"$,$"$c$"$,$"$d$"$,$"$e$"$),1,TRUE), $"$a$"$=$"$one
 
 \subsection{Аргументи на функция}
 
+\begin{frame}
+\frametitle{Организация на група от команди}
+\begin{block}{Примерна потребителска функция}
+say.hello <- function() \{
+
+	print( $"$Hello, World!$"$ );
+
+\}
+
+say.hello();
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Параметризиране на групата инструкции}
+\begin{block}{Извикване на функция с аргумент}
+hello.person <- function( name ) \{
+
+	print( sprintf( $"$Hello, \%s!$"$, name) );
+
+\}
+
+hello.person( $"$Dessislava$"$ );
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Параметризиране на групата инструкции}
+\begin{block}{Извикване на функция с повече аргументи}
+hello.person <- function(first, last) \{
+
+	print( sprintf($"$Hello, \%s \%s!$"$, first,last) );
+
+\}
+
+hello.person( $"$Dessislava$"$, $"$Gruncharova$"$ );
+
+hello.person( last = $"$Mladevnova$"$, first = $"$Vyara$"$);
+\end{block}
+\end{frame}
+
 \subsection{Аргументи с подразбираща се стойност}
+
+\begin{frame}
+\frametitle{Не задължителни аргументи}
+\begin{block}{Извикване на функция с подразбиращи се аргументи}
+hello.person <- function(first, last, title=$"$$"$) \{
+
+	print( sprintf( $"$Hello, \%s \%s \%s!$"$, title, first, last ) );
+
+\}
+
+hello.person( $"$Zornitsa$"$, $"$Radeva$"$, $"$Miss$"$ );
+
+hello.person( $"$Todor$"$, $"$Balabanov$"$ );
+\end{block}
+\end{frame}
 
 \subsection{Променлив брой аргументи}
 
+\begin{frame}
+\frametitle{Не задължителни аргументи}
+\begin{block}{Функция с променлив брой аргументи}
+sum.up <- function(a, b, ...) \{
+
+	print( a+b );
+
+\}
+
+sum.up(1, 2, 3, 4);
+\end{block}
+\end{frame}
+
 \subsection{Върната стойност}
 
+\begin{frame}
+\frametitle{Изходяща информация}
+\begin{block}{Връщане на стойност от функция}
+sum.up <- function(a, b, ...) \{
+
+	return(a + b);
+
+\}
+
+print( sum.up(1,2,3,4) );
+\end{block}
+\end{frame}
+
 \subsection{Предаване на функция като аргумент}
+
+\begin{frame}
+\frametitle{Полиморфно поведение}
+\begin{block}{Избор на функция за извикване по време на изпълнение}
+do.stat <- function(values, calculation) \{
+
+	do.call(calculation, args=list(values));
+
+\}
+
+print( do.stat(1:10,mean) );
+
+print( do.stat(1:10,median) );
+
+print( do.stat(1:10,sd) );
+\end{block}
+\end{frame}
 
 \section{Заключение}
 
