@@ -49,6 +49,86 @@
 	\tableofcontents
 \end{frame}
 
+\section{Фамилията функции apply}
+
+\begin{frame}
+\center \huge{Фамилията функции apply}
+\end{frame}
+
+\subsection{apply}
+
+\begin{frame}
+\frametitle{Обработка по редове или колеони}
+\begin{block}{Сума по редове и колони}
+m1 <- matrix(11:19, nrow=3)
+ 
+apply(m1, 1, sum)
+ 
+apply(m1, 2, sum)
+
+m1[2,2] <- NA
+
+apply(m1, 1, sum)
+
+apply(m1, 2, sum)
+
+apply(m1, 1, sum, na.rm=TRUE)
+
+apply(m1, 2, sum, na.rm=TRUE)
+\end{block}
+\end{frame}
+
+\subsection{lapply и sapply}
+
+\begin{frame}
+\frametitle{Вектори и списъци}
+\begin{block}{Сума на обекти в списък}
+l1 <- list(m2=matrix(1:9,3), l2=1:5, m3=matrix(1:4,2), n1=2)
+
+lapply(l1, sum)
+
+sapply(l1, sum)
+\end{block}
+\end{frame}
+
+\subsection{mapply}
+
+\begin{frame}
+\frametitle{Множество от списъци}
+\begin{block}{Проверка за идентичност на елементите}
+l3 <- list(m4=matrix(1:25,5), m5=matrix(1:16,2), l4=1:5)
+
+l5 <- list(m6=matrix(1:25,5), m7=matrix(1:16,8), l6=15:1)
+
+mapply(identical, l3, l5)
+
+mapply(f1<-function(x,y)\{NROW(x)+NROW(y)\}, l3, l5)
+\end{block}
+\end{frame}
+
+\subsection{Агрегация}
+
+\begin{frame}
+\frametitle{Агрегация}
+\begin{block}{Групиране на данни}
+data(diamonds, package=$"$ggplot2$"$)
+
+aggregate(price\textasciitilde cut, diamonds, mean)
+
+aggregate(price\textasciitilde cut+color, diamonds, mean)
+
+aggregate(cbind(price,carat)\textasciitilde cut, diamonds, mean)
+
+aggregate(cbind(price,carat)\textasciitilde cut+color, diamonds, mean)
+\end{block}
+\end{frame}
+
+\section{Пакетът plyr}
+
+\begin{frame}
+\center \huge{Пакетът plyr}
+\end{frame}
+
 \section{Заключение}
 
 \begin{frame}
