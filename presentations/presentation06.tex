@@ -129,6 +129,135 @@ aggregate(cbind(price,carat)\textasciitilde cut+color, diamonds, mean)
 \center \huge{Пакетът plyr}
 \end{frame}
 
+\subsection{ddply}
+
+\begin{frame}
+\frametitle{Подготовка на данните}
+\begin{block}{Бейзболна статистика}
+library( plyr )
+
+baseball\$sf[baseball\$year < 1954] <- 0
+
+baseball\$hbp[ is.na(baseball\$hbp) ] <- 0
+
+baseball <- baseball[baseball\$ab>=50,]
+
+baseball\$OBP <- with(baseball, (h+bb+hbp)/(ab+bb+hbp+sf))
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Обработка на числител и делител}
+\begin{block}{Пресмятане на OBP за цялата кариера на играча}
+career <- ddply(baseball, .variables=$"$id$"$, .fun=function(data){c(OBP=with(data,sum(h+bb+hbp) / sum(ab+bb+hbp+sf)))})
+
+career <- career[ order(career\$OBP, decreasing=TRUE), ]
+
+head(career, n=3)
+\end{block}
+\end{frame}
+
+\subsection{ddply}
+
+\begin{frame}
+\frametitle{Групова обработка}
+\begin{block}{Сума на всеки елемент в списък}
+l1 <- list(m2=matrix(1:9,3), l2=1:5, m3=matrix(1:4,2), n1=2)
+
+llply(l1, sum)
+
+identical(lapply(l1,sum), llply(l1,sum))
+
+laply(l1, sum)
+\end{block}
+\end{frame}
+
+\subsection{Помощни функции и бързодействие}
+
+\begin{frame}
+\frametitle{Усложняване на агрегацията}
+\begin{block}{Повече от една агрегатна функция}
+library(ggplot2)
+
+aggregate(price\textasciitilde cut, diamonds, each(mean, median))
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Намалена консумация на памет}
+\begin{block}{Бързодействие при използване на референции}
+system.time(dlply(baseball, $"$id$"$, nrow))
+
+reference <- idata.frame( baseball )
+
+system.time(dlply(reference, $"$id$"$, nrow))
+\end{block}
+\end{frame}
+
+\section{Пакетът data.table}
+
+\begin{frame}
+\center \huge{Пакетът data.table}
+\end{frame}
+
+\subsection{Разширяване на възможностите}
+
+\begin{frame}
+\frametitle{Реализация с вътрешно индексиране}
+\begin{block}{Създаване на data.table}
+df <- data.frame(x1=10:1, x2=letters[11:20], x3=LETTERS[1:10], x4=rep(c($"$One$"$, $"$Two$"$, $"$Three$"$), length.out=10))
+
+dt <- data.table(x1=10:1, x2=letters[11:20], x3=LETTERS[1:10], x4=rep(c($"$One$"$, $"$Two$"$, $"$Three$"$), length.out=10))
+
+diamonds <- data.table( diamonds )
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Достъп до информацията}
+\begin{block}{По колони и редове}
+dt[1:2, ]
+
+dt[dt\$x1>=7, ]
+
+dt[x1>=7, ]
+
+dt[,list(x3,x4)]
+
+dt[, x1]
+
+dt[,list(x2)]
+
+dt[, $"$x4$"$, with=FALSE]
+
+
+td[, c($"$x2$"$, $"$x3$"$), with=FALSE]
+\end{block}
+\end{frame}
+
+\subsection{Ключове}
+
+\begin{frame}
+\frametitle{Индексиране}
+\begin{block}{Операции с таблици}
+tables()
+
+setkey(dt, x4)
+
+key( dt )
+
+setkey(diamonds, cut, color)
+\end{block}
+\end{frame}
+
+\subsection{Агрегация}
+
+\begin{frame}
+\frametitle{}
+\begin{block}{}
+\end{block}
+\end{frame}
+
 \section{Заключение}
 
 \begin{frame}
