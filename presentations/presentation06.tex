@@ -253,8 +253,310 @@ setkey(diamonds, cut, color)
 \subsection{Агрегация}
 
 \begin{frame}
-\frametitle{}
-\begin{block}{}
+\frametitle{Бързодействие заради индексирането}
+\begin{block}{Агрегатни функции}
+aggregate(price\textasciitilde cut, diamonds, mean)
+
+diamonds[, list(price=mean(price)), by=cut]
+
+diamonds[, list(price=mean(price)), by=list(cut,color)]
+
+diamonds[, list(price=mean(price),carat=sum(carat)), by=list(cut,color)]
+\end{block}
+\end{frame}
+
+\section{Бързи операции с пакета dplyr}
+
+\begin{frame}
+\center \huge{Бързи операции с пакета dplyr}
+\end{frame}
+
+\subsection{Потоци и таблици}
+
+\begin{frame}
+\frametitle{Верига от изчисления}
+\begin{block}{Поточни операции}
+library( ggplot2 )
+
+library( magrittr )
+ 
+dim( head(diamonds,n=4) )
+ 
+diamonds \%>\% head(4) \%>\% dim
+\end{block}
+\end{frame}
+
+\subsection{Извличане по колони}
+
+\begin{frame}
+\frametitle{Избор по редове по аналогия с релационните бази данни}
+\begin{block}{Избор на редове}
+diamonds \%>\% select(carat, price)
+
+diamonds \%>\% select(c(carat, price))
+
+diamonds \%>\% select\_('carat', 'price')
+
+names <- c('carat', 'price')
+
+diamonds \%>\% select\_(.dots=names)
+
+diamonds \%>\% select( one\_of('carat', 'price') )
+
+names <- c('carat', 'price')
+
+diamonds \%>\% select( one\_of(names) )
+
+select(diamonds, 1, 7)
+
+diamonds \%>\% select(1, 7)
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Допълнителни възможности при търсене}
+\begin{block}{Търсене по частично съвпадение}
+diamonds \%>\% select( starts\_with('c') )
+
+diamonds \%>\% select( ends\_with('e') )
+
+diamonds \%>\% select( contains('l') )
+
+diamonds \%>\% select( matches('r.+t') )
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Отсяване на информация}
+\begin{block}{Изключване на колони}
+diamonds \%>\% select(-carat, -price)
+
+diamonds \%>\% select( -c(carat, price) )
+
+diamonds \%>\% select(-1, -7)
+
+diamonds \%>\% select( -c(1,7) )
+
+diamonds \%>\% select\_(.dots=c('-carat', '-price'))
+
+diamonds \%>\% select( -one\_of('carat','price') )
+\end{block}
+\end{frame}
+
+\subsection{Филтриране}
+
+\begin{frame}
+\frametitle{Отсяване на информация}
+\begin{block}{Филтриране на редове}
+diamonds \%>\% filter(cut == 'Ideal')
+
+diamonds[diamonds\$cut == 'Ideal', ]
+
+diamonds \%>\% filter(cut \%in\% c('Ideal', 'Good'))
+
+diamonds \%>\% filter(carat > 2, price < 14000)
+
+diamonds \%>\% filter(carat > 2 \& price < 14000)
+
+diamonds \%>\% filter(carat < 1 | carat > 5)
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Отсяване на информация}
+\begin{block}{Филтриране на редове}
+diamonds \%>\% filter\_($"$cut == 'Ideal'$"$)
+
+diamonds \%>\% filter\_(\textasciitilde cut == 'Ideal')
+
+cut <- 'Ideal'
+
+diamonds \%>\% filter\_(\textasciitilde cut == cut)
+
+col <- 'cut'
+
+cut <- 'Ideal'
+
+diamonds \%>\% filter\_(sprintf($"$\%s == '\%s'$"$, col, cut))
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Използване на индексирането}
+\begin{block}{Избор по индекси}
+diamonds \%>\% slice(1:5)
+
+diamonds \%>\% slice(c(1:5, 8, 15:20))
+
+diamonds \%>\% slice(-1)
+\end{block}
+\end{frame}
+
+\subsection{Модификация, обобщение, групиране и подреждане}
+
+\begin{frame}
+\frametitle{Модификация на колони}
+\begin{block}{Допълнителна колона}
+diamonds \%>\% mutate(price/carat)
+
+diamonds \%>\% select(carat, price) \%>\% mutate(price/carat)
+
+diamonds \%>\% select(carat, price) \%>\% mutate(ratio=price/carat)
+
+diamonds \%>\% select(carat, price) \%>\% mutate(ratio=price/carat, square=ratio*ratio)
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Двупосочна поточна операции}
+\begin{block}{Отразяване на модификациите}
+diamonds2 <- diamonds
+
+diamonds2 \%<>\% select(carat, price) \%>\% mutate(ratio=price/carat, square=ratio*ratio)
+
+head(diamonds2, n=3)
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Изчисления по няколко агрегатни фунции}
+\begin{block}{Обобщаваща информация}
+summarize(diamonds, sd(price))
+
+diamonds \%>\% summarize(sd(price))
+
+diamonds \%>\% summarize(AveragePrice=mean(price), MedianPrice=median(price), AverageCarat=mean(carat))
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Информативно представяне на данните}
+\begin{block}{Групиране при обобщение}
+diamonds \%>\% group\_by(cut, color) \%>\% summarize(AveragePrice=mean(price), SumCarat=sum(carat))
+\end{block}
+
+\begin{block}{Подредба на резултатите}
+diamonds \%>\% group\_by(cut) \%>\% summarize(AveragePrice=mean(price), SumCarat=sum(carat)) \%>\% arrange(desc(SumCarat))
+\end{block}
+\end{frame}
+
+\subsection{Специфични изчисления и връзка с база данни}
+
+\begin{frame}
+\frametitle{Потребителски функции върху данни}
+\begin{block}{Специфични изчисления}
+bottom <- function(x, N=5) \{ x \%>\% arrange(carat) \%>\% head(N) \}
+
+diamonds \%>\% group\_by(cut) \%>\% do(bottom(., N=3))
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Системи за управление на бази от данни}
+\begin{block}{Работа с база данни}
+setwd( $"$\textasciitilde /Desktop$"$ )
+
+download.file($"$https://github.com/TodorBalabanov/Statistical-Data-Processing-with-R/blob/master/data/diamonds.db? raw=true$"$, destfile=$"$./diamonds.db$"$, mode=$"$wb$"$)
+
+source <- src\_sqlite($"$diamonds.db$"$)
+
+table <- tbl(source, $"$diamonds$"$)
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Интерфейс към данни в СУБД}
+\begin{block}{Пресмятания с данни в база данни}
+table \%>\% group\_by(cut) \%>\% dplyr::summarize(AveragePrice=mean(price), AverageCarat=mean(carat))
+\end{block}
+\end{frame}
+
+\section{Пакетът purrr}
+
+\begin{frame}
+\center \huge{Пакетът purrr}
+\end{frame}
+
+\subsection{Фамилията функции map}
+
+\begin{frame}
+\frametitle{Обработка елемент по елемент}
+\begin{block}{Прилагане на функцията map}
+library(purrr)
+
+l1 <- list(m2=matrix(1:9,3), l2=1:5, m3=matrix(1:4,2), n1=2)
+
+l1 \%>\% map( sum )
+
+l1 \%>\% map(function(x) sum(x, na.rm=TRUE))
+
+l1 \%>\% map(sum, na.rm=TRUE)
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Фамилия функции map}
+\begin{table}[ht]
+\centering
+\begin{tabular}{|l|r|} 
+  \hline
+  Функция & Тип на върнатата стойност \\ [0.1ex] 
+  \hline\hline
+  map & list \\
+  \hline
+  map\_int & integer \\
+  \hline
+  map\_dbl & numeric \\
+  \hline
+  map\_chr & character \\
+  \hline
+  map\_lgl & logical \\
+  \hline
+  map\_df & data.frame \\
+  \hline
+\end{tabular}
+\end{table}
+\end{frame}
+
+\begin{frame}
+\frametitle{Контекстна зависимост}
+\begin{block}{Извиквания на map\, според типа на върнатата стойност}
+l1 \%>\% map\_int(NROW)
+
+l1 \%>\% map\_dbl(mean)
+
+l1 \%>\% map\_chr(class)
+
+l1 \%>\% map\_lgl(function(x) NROW(x) < 3)
+
+list(3,4,1,5) \%>\% map( function(x)\{ data.frame(A=1:x,B=x:1) \} )
+
+list(3,4,1,5) \%>\% map\_df( function(x)\{ data.frame(A=1:x,B=x:1) \} )
+
+l1 \%>\% map\_if(is.matrix, function(x) x*2)
+
+l1 \%>\% map\_if(is.matrix, \textasciitilde  .x*2)
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Група от списъци}
+\begin{block}{Обхождане на data.frame}
+data(diamonds, package='ggplot2')
+
+diamonds \%>\% map\_dbl(mean)
+\end{block}
+
+\begin{block}{Едновременно обхождане на два списъка}
+l3 <- list(m4=matrix(1:25,5), m5=matrix(1:16,2), l4=1:5)
+
+l5 <- list(m6=matrix(1:25,5), m7=matrix(1:16,8), l6=15:1)
+
+map2(l3, l5, function(x, y)\{NROW(x) + NROW(y)\})
+
+map2\_int(l3, l5, function(x, y)\{NROW(x) + NROW(y)\})
+
+pmap(list(l3, l5), function(x, y)\{NROW(x) + NROW(y)\})
 \end{block}
 \end{frame}
 
