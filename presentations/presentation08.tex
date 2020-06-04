@@ -4,6 +4,7 @@
 \usepackage[utf8x]{inputenc}
 \usepackage[english,bulgarian]{babel}
 \usepackage{multirow}
+\usepackage{ragged2e}
 
 \mode<presentation> {
 	\usetheme{Berlin}
@@ -41,6 +42,12 @@
 
 \begin{frame}
 	\titlepage
+\end{frame}
+
+\begin{frame}
+\begin{exampleblock}{Acknowledgments}
+\justify These teaching materials are funded by Velbazhd Software LLC and it is partially supported by the Bulgarian Ministry of Education and Science (contract D01–205/23.11.2018) under the National Scientific Program ``Information and Communication Technologies for a Single Digital Market in Science, Education and Security (ICTinSES)'', approved by DCM \# 577/17.08.2018.
+\end{exampleblock}
 \end{frame}
 
 \section*{Теми}
@@ -357,9 +364,91 @@ cdf(x) = \int_{-\infty}^{a} \frac{1}{{\sigma \sqrt {2\pi } }}e^{{{ - \left( {x -
 \subsection{Биномно разпределение}
 
 \begin{frame}
-\frametitle{}
-\begin{block}{}
+\frametitle{Вероятностна функция на биномно разпределение}
+\begin{equation}
+pdf(x) = \binom{n}{x}p^{x}(1-p)^{n-x}
+\end{equation}
+\end{frame}
+
+\begin{frame}
+\frametitle{Биномен коефициент}
+\begin{equation}
+\binom{n}{x} = \frac{n!}{x!(n-x)!}
+\end{equation}
+\end{frame}
+
+\begin{frame}
+\frametitle{Плътност, кумулативна функция, квантили}
+\begin{block}{Функции за работа с биномно разпределение}
+library( ggplot2 )
+
+values <- rbinom(n=10000, size=7, prob=0.35)
+
+density <- dbinom(x=2, size=7, prob=0.35)
+
+cumulative <- pbinom(q=2, size=7, prob=0.35)
+
+quantile <- qbinom(p=0.15, size=7, prob=0.35)
+
+ggplot(data.frame(x=values)) + aes(x=x) + geom\_histogram() + labs(x=$"$Binomial Distributed Random Values$"$, y=$"$Count$"$)
 \end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Хистограма на биномно разпределение}
+\begin{figure}[]\includegraphics[width=\textwidth,height=0.75\textheight]{pic0053}\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Кумулативна функция на биномно разпределение}
+\begin{equation}
+cdf(x) = \sum_{i=0}^{a}\binom{n}{i}p^{i}(1-p)^{n-i}
+\end{equation}
+\end{frame}
+
+\subsection{Поасоново разпределение}
+
+\begin{frame}
+\frametitle{Вероятностна функция на поасоново разпределение}
+\begin{equation}
+pdf(x) = \frac{\lambda^{x}e^{-\lambda}}{x!}
+\end{equation}
+\end{frame}
+
+\begin{frame}
+\frametitle{Кумулативна функция на поасоново разпределение}
+\begin{equation}
+cdf(x) = \sum_{i=0}^{a}\frac{\lambda^{i}e^{-\lambda}}{i!}
+\end{equation}
+\end{frame}
+
+\begin{frame}
+\frametitle{Плътност, кумулативна функция, квантили}
+\begin{block}{Функции за работа с разпределение на Поасон}
+library( ggplot2 )
+
+values <- rpois(n=1000, lambda=0.8)
+
+density <- dpois(x=2, lambda=0.8)
+
+cumulative <- ppois(q=2, lambda=0.8)
+
+quantile <- qpois(p=0.75, lambda=0.8)
+
+ggplot(data.frame(x=values)) + aes(x=x) + geom\_histogram() + labs(x=$"$Poisson Distributed Random Values$"$, y=$"$Count$"$)
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Хистограма на Поасоново разпределение}
+\begin{figure}[]\includegraphics[width=\textwidth,height=0.75\textheight]{pic0054}\end{figure}
+\end{frame}
+
+\subsection{Други разпределения}
+
+\begin{frame}
+\frametitle{Списък с най-използваните вероятностни разпределения}
+\begin{figure}[]\includegraphics[width=\textwidth,height=0.75\textheight]{pic0055}\end{figure}
 \end{frame}
 
 \section{Заключение}
