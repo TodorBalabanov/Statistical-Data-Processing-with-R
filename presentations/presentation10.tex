@@ -348,9 +348,47 @@ y_i = \sum{(w_{ij}*y_j)} + b
 \end{frame}
 
 \begin{frame}
-\frametitle{}
-\begin{block}{}
+\frametitle{Обучение с учител}
+\begin{block}{Класифициране с изкуствена невронна мрежа}
+library( neuralnet )
+
+training <- data.frame(TS=c(30,10,20,30,80), SS=c(80,20,90,40,50), SE=c(1,0,1,0,1))
+
+network <- neuralnet(SE~TS+SS, data=training, hidden=4, act.fct=$"$tanh$"$, linear.output=FALSE)
+
+plot( network )
+
+testing <- data.frame(TS=c(85,30,20), SS=c(10,20,75))
+
+prediction <- compute(network, testing)
+
+prediction\$net.result
+
+ifelse(prediction\$net.result>0.5, TRUE, FALSE)
 \end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Трислойна изкуствена невронна мрежа}
+\begin{figure}[]\includegraphics[width=\textwidth,height=0.75\textheight]{pic0065}\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Тестово множество данни}
+\begin{table}[ht]
+\centering
+\begin{tabular}{|l|r|r|} 
+	\hline
+	Technical Skills & Soft Skills & Employment Forecast \\
+	\hline\hline
+	85 & 10 & 0.3322677 \\
+	\hline
+	30 & 20 & 0.3322677 \\
+	\hline
+	20 & 75 & 0.9924267 \\
+	\hline
+\end{tabular}
+\end{table}
 \end{frame}
 
 \section{Заключение}
