@@ -21,7 +21,7 @@
 
 \author{Пламен Петров и Тодор Балабанов}
 
-\date{1.VI.2020}
+\date{7.VI.2020}
 
 \institute[ЦО и ИИКТ към БАН] {
 	Център за обучение \\
@@ -54,6 +54,133 @@
 \begin{frame}[shrink]
 	\frametitle{Съдържание}
 	\tableofcontents
+\end{frame}
+
+\section{Работа с LaTeX}
+
+\begin{frame}
+\center \huge{Работа с LaTeX}
+\end{frame}
+
+\subsection{Добра интеграция с R}
+
+\begin{frame}
+\frametitle{Код компилиран до текст}
+\begin{block}{Инструкция за R фрагмент в LaTeX документ}
+<<label-value, option1=value1, option2=value2>>=
+
+\texttt{@}
+\end{block}
+
+\begin{block}{Транслиране от Rnw до Tex}
+library( knitr )
+
+setwd( $"$\textasciitilde /Desktop$"$ )
+
+Sweave( $"$./example0002.Rnw$"$ )
+\end{block}
+
+\begin{block}{Транслиране от Tex до PDF}
+pdflatex ./example0002.tex
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Примерни документи}
+\begin{block}{URL адреси}
+https://raw.githubusercontent.com/TodorBalabanov/Statistical-Data-Processing-with-R/master/code/Sweave.sty
+
+https://raw.githubusercontent.com/TodorBalabanov/Statistical-Data-Processing-with-R/master/code/example0002.Rnw
+
+https://raw.githubusercontent.com/TodorBalabanov/Statistical-Data-Processing-with-R/master/code/example0003.Rnw
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Примерно представяне}
+\begin{block}{Линейна регресия на разходи спрямо спестявания}
+library( knitr )
+
+setwd( $"$\textasciitilde /Desktop$"$ )
+
+Sweave( $"$./example0003.Rnw$"$ )
+
+system($"$pdflatex ./example0003.tex$"$, intern=TRUE)
+\end{block}
+\end{frame}
+
+\section{Работа с RMarkdown}
+
+\begin{frame}
+\center \huge{Работа с RMarkdown}
+\end{frame}
+
+\subsection{Статични документи}
+
+\begin{frame}
+\frametitle{Опростен синтаксис за тагиране}
+\begin{block}{Адрес на примерни RMarkdown документ}
+https://raw.githubusercontent.com/TodorBalabanov/Statistical-Data-Processing-with-R/master/code/example0004.Rmd
+
+https://raw.githubusercontent.com/TodorBalabanov/Statistical-Data-Processing-with-R/master/code/example0005.Rmd
+
+https://raw.githubusercontent.com/TodorBalabanov/Statistical-Data-Processing-with-R/master/code/example0007.Rmd
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Преход между файловите формати}
+\begin{block}{Транслиране от RMarkdown в HTML и PDF}
+library( knitr )
+
+library( ggplot2 )
+
+library( rmarkdown )
+
+setwd( $"$\textasciitilde /Desktop$"$ )
+
+render( $"$./example0004.Rmd$"$ )
+
+render( $"$./example0005.Rmd$"$ )
+
+render( $"$./example0007.Rmd$"$ )
+\end{block}
+\end{frame}
+
+\subsection{Динамични документи}
+
+\begin{frame}
+\frametitle{Динамично съдържание}
+\begin{block}{Адрес на примерни интерактивни документ}
+https://raw.githubusercontent.com/TodorBalabanov/Statistical-Data-Processing-with-R/master/code/example0006.Rmd
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{Взаимодействие с потребителя}
+\begin{block}{Създаване на интерактивни документи}
+library( DT )
+
+library( dplyr )
+
+library( knitr )
+
+library( ggplot2 )
+
+library( rmarkdown )
+
+library( d3heatmap )
+
+setwd( $"$\textasciitilde /Desktop$"$ )
+
+render( $"$./example0006.Rmd$"$ )
+\end{block}
+\end{frame}
+
+\begin{frame}
+\frametitle{}
+\begin{block}{}
+\end{block}
 \end{frame}
 
 \section{Заключение}
